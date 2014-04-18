@@ -31,7 +31,7 @@ def main():
     ensure_dir()
     os.chdir('intel')
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("--choice", type=str, choices=['list', 'update'], help="Choose menu option:\n\
+    parser.add_argument("--feeds", type=str, choices=['list', 'update'], help="Choose menu option:\n\
     1. Show list of current feeds to update individually\n\
     2. Update all feeds")
     parser.add_argument('--search', type=str, nargs='?', const=1, help='Searches through Intel dir for provided IOCs')
@@ -42,12 +42,12 @@ def main():
         ioc_file = args.search
         hunt.search(ioc_file)
 
-    elif args.choice == 'update':
+    elif args.feeds == 'update':
         print '[*] Updating all feeds'
         run_modules()
         print '[+] All Feeds Updated!'
 
-    elif args.choice == 'list':
+    elif args.feeds == 'list':
         print '[*] Please select feed to update:'
         feed_list = dir(feeds)
         newlist = []

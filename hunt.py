@@ -13,43 +13,58 @@ def search(ioc):
     os.chdir('../')
     patt = re.compile('[\b\w](?:[0-9]{1,3}\.){3}[0-9]{1,3}[\b\w]')
 
-    print '[*] Searching for indicators from %s' % ioc
     if ioc[-3:] == 'csv':
         print '[*] Pulling indicators as CSV values'
     else:
         print '[*] Assuming new-line formatted file'
-        try:
-            f = open(ioc, 'r').readlines()
-        except:
-            print '[!] Cannot locate file: %s. \n\
-            Please provide the full path.' % ioc
-            exit(0)
+    try:
+        f = open(ioc, 'r').readlines()
+    except:
+        print '[!] Cannot locate file: %s. \n\
+        Please provide the full path.' % ioc
+        exit(0)
 
-        ioc_list = []
-        for line in f:
-            for match in patt.findall(line):
-                ioc_list.append(match)
+    ioc_list = []
+    for line in f:
+        for match in patt.findall(line):
+            ioc_list.append(match)
 
-        sleep(2)
-        os.chdir('intel')
-        dir = os.listdir('.')
+    sleep(2)
+    os.chdir('intel')
+    dir = os.listdir('.')
 
-        total = float(len(f))
-        oneperc = 1.0/total
-        perc = 0.0
-        matched = {}
+    total = float(len(ioc_list))
+    print '[*] Found %d indicators in %s' % (total, ioc)
+    oneperc = total/100.0
+    perc = 0.0
+    prog = 0.0
+    count = 0
+    matched = open('../matches.txt', 'w')
 
-        for item in ioc_list:
-            for i in dir:
-                contents = open(i, 'r').readlines()
-                if item in contents:
-                    matched.update(item, i)
-                else:
-                    pass
-            perc += oneperc
+    for item in ioc_list:
+        for i in dir:
+            f2 = open(i, 'r')
+            contents = f2.readlines()
+            for line in contents:
+                if item in line:
+                    info = item + ' --> ' + i + '\n'
+                    matched.write(info)
+            else:
+                pass
+            f2.close()
+
+        count += 1.0
+
+        if count > oneperc:
+            prog += oneperc
+            perc = prog/total
             update_progress(perc)
+            count = 0
+        else:
+            pass
 
-        matched.items()
+    print '[+] Search complete.'
+
 
 
 def update_progress(progress):
@@ -63,10 +78,10 @@ def update_progress(progress):
     if progress < 0:
         progress = 0
         status = "Halt...\r\n"
-    if progress >= 1:
+    if progress >= .99:
         progress = 1
         status = "Done...\r\n"
     block = int(round(barLength*progress))
-    text = "\rProgress: [{0}] {1}% {2}".format( "#"*block + "-"*(barLength-block), progress*100, status)
+    text = "\rProgress: [{0}] {1}% {2}".format("#"*block + "-"*(barLength-block), progress*100, status)
     sys.stdout.write(text)
     sys.stdout.flush()

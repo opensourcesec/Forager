@@ -9,3 +9,4 @@ The script creates a file for malicious IP addresses and a file for malicious do
 Search function
 ---------------
 
+Provides the capability to search through the intel directory results for a specific list of indicators
