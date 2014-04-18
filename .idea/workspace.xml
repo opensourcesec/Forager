@@ -23,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="hunt.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="hunt.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hunt.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="47" selection-start="2114" selection-end="2114" vertical-scroll-proportion="2.5758092" vertical-offset="0" max-vertical-offset="1674">
+            <state line="29" column="34" selection-start="731" selection-end="731" vertical-scroll-proportion="0.0" vertical-offset="61" max-vertical-offset="1674">
               <folding>
                 <element signature="e#146#156#0" expanded="true" />
               </folding>
@@ -34,10 +34,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IntelMaster.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="IntelMaster.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntelMaster.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="19" selection-start="1262" selection-end="1262" vertical-scroll-proportion="0.0" vertical-offset="812" max-vertical-offset="1386">
+            <state line="49" column="19" selection-start="1262" selection-end="1262" vertical-scroll-proportion="1.4111499" vertical-offset="0" max-vertical-offset="1386">
               <folding />
             </state>
           </provider>
@@ -56,8 +56,8 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/outbound_external_chi.txt" />
         <option value="$PROJECT_DIR$/IntelMaster.py" />
-        <option value="$PROJECT_DIR$/hunt.py" />
         <option value="$PROJECT_DIR$/matches.txt" />
+        <option value="$PROJECT_DIR$/hunt.py" />
       </list>
     </option>
   </component>
@@ -111,20 +111,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IntelMaster" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IntelMaster" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -152,7 +138,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="IntelMaster" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/IntelMaster.py" />
-      <option name="PARAMETERS" value="--search outbound_external_chi.txt" />
+      <option name="PARAMETERS" value="--search $USER_HOME$/indicators.txt" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
@@ -297,7 +283,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="0" width="1284" height="1026" extended-state="7" />
+    <frame x="-2" y="0" width="1284" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -376,33 +362,33 @@
         <state line="11" column="103" selection-start="456" selection-end="456" vertical-scroll-proportion="0.21758242" vertical-offset="0" max-vertical-offset="910" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/outbound_external_chi.txt">
+    <entry file="file://$PROJECT_DIR$/intel/Alienvault_ip">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="91260">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IntelMaster.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="19" selection-start="1262" selection-end="1262" vertical-scroll-proportion="0.0" vertical-offset="812" max-vertical-offset="1386">
+        <state line="0" column="7" selection-start="0" selection-end="14" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3877416">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/matches.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="0" selection-start="4090" selection-end="4090" vertical-scroll-proportion="4.32368" vertical-offset="0" max-vertical-offset="2646">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="587">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hunt.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="47" selection-start="2114" selection-end="2114" vertical-scroll-proportion="2.5758092" vertical-offset="0" max-vertical-offset="1674">
+        <state line="29" column="34" selection-start="731" selection-end="731" vertical-scroll-proportion="0.0" vertical-offset="61" max-vertical-offset="1674">
           <folding>
             <element signature="e#146#156#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IntelMaster.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="19" selection-start="1262" selection-end="1262" vertical-scroll-proportion="1.4111499" vertical-offset="0" max-vertical-offset="1386">
+          <folding />
         </state>
       </provider>
     </entry>

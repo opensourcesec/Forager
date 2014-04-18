@@ -11,7 +11,7 @@ from time import sleep
 
 def search(ioc):
     os.chdir('../')
-    patt = re.compile('[\b\w](?:[0-9]{1,3}\.){3}[0-9]{1,3}[\b\w]')
+    patt = re.compile('((?:[0-9]{1,3}\.){3}[0-9]{1,3})')
 
     if ioc[-3:] == 'csv':
         print '[*] Pulling indicators as CSV values'
@@ -20,8 +20,8 @@ def search(ioc):
     try:
         f = open(ioc, 'r').readlines()
     except:
-        print '[!] Cannot locate file: %s. \n\
-        Please provide the full path.' % ioc
+        sys.stderr.write('[!] Cannot locate file: %s.'\
+        ' Please provide the full path.' % ioc)
         exit(0)
 
     ioc_list = []
@@ -78,7 +78,7 @@ def update_progress(progress):
     if progress < 0:
         progress = 0
         status = "Halt...\r\n"
-    if progress >= .99:
+    if progress >= .999:
         progress = 1
         status = "Done...\r\n"
     block = int(round(barLength*progress))
