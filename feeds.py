@@ -5,20 +5,16 @@
 
 from urllib2 import urlopen
 import re
-
+from tools import gather, regex
 
 ## Pull updates from Malc0de
 def malc0de_update():
-    malcode_file = open('malc0de-ip-blacklist', 'w+')
-    url = urlopen('http://malc0de.com/bl/IP_Blacklist.txt')
-    print '[*] Connected to Malc0de database, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '/' in line:
-            pass
-        else:
-            malcode_file.write(line)
-    malcode_file.close()
+    ip_addr = regex('ip')
+    hostname = regex('domain')
+    iocs = gather('http://malc0de.com/bl/IP_Blacklist.tx', ip_addr)
+    f = open('Malc0de-ip', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
 
     print '[+] Malc0de entries retrieved'
 
@@ -34,7 +30,7 @@ def MDL_update():
         mylist.append(line)
     newstr = ''.join(mylist)  # Makes each line a part of $mylist ##
     pat = re.compile('127.0.0.1\s([^\#\r\n]*)')   # Matches anything  after localhost
-    for match in pat.findall(newstr):  # Searches for match from our ocmpiled regex
+    for match in pat.findall(newstr):  # Searches for match from our compiled regex
         hostlist.append(match)   # Then appends it to our host list
 
     hoststr = ''.join(hostlist)
