@@ -8,13 +8,15 @@ import re
 import sys
 import urllib2
 
+
 def connect(url):
     try:
-        f = urllib2.urlopen(url).read()
+        f = urllib2.urlopen(url).readlines()
         return f
     except:
         sys.stderr.write('[!] Failed to access %s' % url)
         sys.exit(0)
+
 
 def regex(type):
     if type == 'ip':
@@ -26,14 +28,20 @@ def regex(type):
         sys.exit(0)
     return pattern
 
+
 def gather(url, rex):
     ioc_list = []
     count = 0
     f = connect(url)
     sleep(2)
-    results = rex.findall(f)
-    for ioc in results:
-        ioc_list.append(ioc)
-        count += 1
+    for line in f:
+        if line.startswith('/') or line.startswith('#') or line.startswith('\n'):
+            pass
+        else:
+            ioc = rex.findall(line)
+            ioc = ''.join(ioc)
+            ioc_list.append(ioc)
+            count += 1
+
     print '[+] Gathered %d indicators from %s' % (count, url)
     return ioc_list

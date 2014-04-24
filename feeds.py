@@ -10,256 +10,170 @@ from tools import gather, regex
 ## Pull updates from Malc0de
 def malc0de_update():
     ip_addr = regex('ip')
-    hostname = regex('domain')
-    iocs = gather('http://malc0de.com/bl/IP_Blacklist.tx', ip_addr)
+    iocs = gather('http://malc0de.com/bl/IP_Blacklist.txt', ip_addr)
     f = open('Malc0de-ip', 'w+')
     for ioc in iocs:
         f.write(ioc + '\n')
+    f.close()
 
     print '[+] Malc0de entries retrieved'
 
 
 ## Pull updates from Malware Domain List
 def MDL_update():
-    text = urlopen('http://www.malwaredomainlist.com/hostslist/hosts.txt').readlines()
-    mylist = []
-    hostlist = []
+    ip_addr = regex('ip')
+    hostname = regex('domain')
+    iocs = gather('http://www.malwaredomainlist.com/hostslist/ip.txt', ip_addr)
+    host_ioc = gather('http://www.malwaredomainlist.com/hostslist/hosts.txt', hostname)
 
-    ## Iterate through lines gathered from MDL to format each line ##
-    for line in text:
-        mylist.append(line)
-    newstr = ''.join(mylist)  # Makes each line a part of $mylist ##
-    pat = re.compile('127.0.0.1\s([^\#\r\n]*)')   # Matches anything  after localhost
-    for match in pat.findall(newstr):  # Searches for match from our compiled regex
-        hostlist.append(match)   # Then appends it to our host list
+    f = open('MDL-ip', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
 
-    hoststr = ''.join(hostlist)
-    formatted = re.sub(r" ", "\n", hoststr) # Uses regex to substitute a whitespace for a new line
-    file = open('MDL-domains', 'w+')
-    file.write(formatted)
+    f = open('MDL-domains', 'w+')
+    for domain in host_ioc:
+        f.write(domain + '\n')
+    f.close()
 
-    ## Gathering IP Addresses ##
-    mdl_ip = urlopen('http://www.malwaredomainlist.com/hostslist/ip.txt').read()
-    print '[*] Connected to malwaredomainlist.com..'
-
-    ip_file = open('MDL-IP', 'w+')  # Opening iP file to save entries #
-    ip_file.write(mdl_ip)
     print '[+] MDL entries retrieved!'
 
 
 ## Pulls updates from Feodo Tracker
 def feodo_update():
-    # Grab the Domains from Feodo Tracker
-    file = open('Feodo-domain-blacklist', 'w+')
-    url = urlopen('https://feodotracker.abuse.ch/blocklist/?download=domainblocklist')
-    print '[*] Accessing Feodo Tracker domain list, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '#' in line:
-            pass
-        else:
-            file.write(line)
-    file.close()
+    ip_addr = regex('ip')
+    hostname = regex('domain')
+    iocs = gather('https://feodotracker.abuse.ch/blocklist/?download=ipblocklist', ip_addr)
+    host_ioc = gather('https://feodotracker.abuse.ch/blocklist/?download=domainblocklist', hostname)
 
-    # Grab IP's from Feodo Tracker
-    file = open('Feodo-ip-blacklist', 'w+')
-    url = urlopen('https://feodotracker.abuse.ch/blocklist/?download=ipblocklist')
-    print '[*] Accessing Feodo Tracker IP blacklist, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '#' in line:
-            pass
-        else:
-            file.write(line)
-    file.close()
+    f = open('Feodo-ip', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
 
-    print '[+] Feodo Tracker domain and IP entries retrieved'
+    f = open('Feodo-domains', 'w+')
+    for domain in host_ioc:
+        f.write(domain + '\n')
+    f.close()
+
+    print '[+] Feodo Tracker indicators retrieved'
 
 
 ## Pulls updates from reputation.alienvault.com
 def alienvault_update():
-    ip_list = []
-    av_pat = re.compile(r'(^.*)\s#')
-    try:
-        feed = urlopen("https://reputation.alienvault.com/reputation.generic").readlines()
-        status = "Connected!"
-        print '[*] Opening Alenvault reputation list. Status: ' + status
-    except Exception, e:
-        status = "[-] ERROR: " + str(e)
+    ip_addr = regex('ip')
+    iocs = gather('https://reputation.alienvault.com/reputation.generic', ip_addr)
 
-    for line in feed:
-        if line.startswith('#') or line.startswith('\n'):
-            pass
-        else:
-            host = av_pat.findall(line)  # Find all IP's in a given line using regex
-            host_ip = ', '.join(host)  # join hosts into a list of strings
-            ip_list.append(host_ip)  # add hosts to new list
+    f = open('Alienvault-ip', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
 
-    ip_adds = '\n'.join(ip_list)  # Join all hosts into new string separated by lines
-
-    file = open('Alienvault_ip', 'w+')
-    for line in ip_adds:
-        file.write(line)
-    file.close()
+    print '[+] Alienvault indicators retrieved'
 
 
 ## Pulls updates from DShield High Pri suspicious domain list
 def dshield_high_update():
-    try:
-        feed = urlopen("http://www.dshield.org/feeds/suspiciousdomains_High.txt").readlines()
-        status = "Connected"
-        print '[+] Opening DShield Suspicious Domain list. Status: ' + status
-    except Exception, e:
-        status = "ERROR: " + str(e)
+    hostname = regex('domain')
+    iocs = gather('http://www.dshield.org/feeds/suspiciousdomains_High.txt', hostname)
 
-    ipfile = open('Dshield_suspicious_HIGHPRI', 'w+')
-
-    for line in feed:
-        if line.startswith('#') or line.startswith('\n') or 'Site' in line:
-            pass
-        else:
-            ipfile.write(line)
+    f = open('DShield-HighPri-Domains', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
 
     print '[+] DShield HIGH priority suspicious domains updated!'
-    ipfile.close()
 
 
 ## Pulls updates from Spyeye Tracker
 def spyeye_tracker_update():
-    # Grab the Domains from Spyeye Tracker
-    file = open('Spyeye-domain-blacklist', 'w+')
-    url = urlopen('https://spyeyetracker.abuse.ch/blocklist.php?download=domainblocklist')
-    print '[*] Accessing Spyeye Tracker domain list, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '#' in line:
-            pass
-        else:
-            file.write(line)
-    file.close()
+    hostname = regex('domain')
+    ip_addr = regex('ip')
 
     # Grab IP's from Spyeye Tracker
-    file = open('Spyeye-ip-blacklist', 'w+')
-    url = urlopen('https://spyeyetracker.abuse.ch/blocklist.php?download=ipblocklist')
-    print '[*] Accessing Spyeye Tracker IP blacklist, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '#' in line:
-            pass
-        else:
-            file.write(line)
-    file.close()
+    iocs = gather('https://spyeyetracker.abuse.ch/blocklist.php?download=ipblocklist', ip_addr)
+    # Grab the Domains from Spyeye Tracker
+    host_ioc = gather('https://spyeyetracker.abuse.ch/blocklist.php?download=domainblocklist', hostname)
+
+    f = open('SpyEye-ip', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
+
+    f = open('SpyEye-domains', 'w+')
+    for domain in host_ioc:
+        f.write(domain + '\n')
+    f.close()
 
     print '[+] Spyeye Tracker domain and IP entries retrieved'
 
 
 ## Pulls updates from Zeus Tracker
 def zeus_tracker_update():
-    # Grab the Domains from Zeus Tracker
-    file = open('Zeus-domain-blacklist', 'w+')
-    url = urlopen('https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist')
-    print '[*] Accessing Zeus Tracker domain list, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '#' in line:
-            pass
-        else:
-            file.write(line)
-    file.close()
+    hostname = regex('domain')
+    ip_addr = regex('ip')
 
     # Grab IP's from Zeus Tracker
-    file = open('Zeus-ip-blacklist', 'w+')
-    url = urlopen('https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist')
-    print '[*] Accessing Zeus Tracker IP blacklist, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '#' in line:
-            pass
-        else:
-            file.write(line)
-    file.close()
+    iocs = gather('https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist', ip_addr)
+    # Grab the Domains from Zeus Tracker
+    host_ioc = gather('https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist', hostname)
+
+    f = open('Zeus-ip', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
+
+    f = open('Zeus-domains', 'w+')
+    for domain in host_ioc:
+        f.write(domain + '\n')
+    f.close()
 
     print '[+] Zeus domain and IP entries retrieved'
 
 
 ## Pulls updates from Palevo Tracker
 def palevo_tracker_update():
-    # Grab the Domains from Palevo Tracker
-    file = open('Palevo-domain-blacklist', 'w+')
-    url = urlopen('https://palevotracker.abuse.ch/blocklists.php?download=domainblocklist')
-    print '[*] Accessing Palevo Tracker domain list, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '#' in line:
-            pass
-        else:
-            file.write(line)
-    file.close()
+    hostname = regex('domain')
+    ip_addr = regex('ip')
 
     # Grab IP's from Palevo Tracker
-    file = open('Palevo-ip-blacklist', 'w+')
-    url = urlopen('https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist')
-    print '[*] Accessing Palevo Tracker IP blacklist, retrieving latest entries..'
-    text = url.readlines()
-    for line in text:
-        if '#' in line:
-            pass
-        else:
-            file.write(line)
-    file.close()
+    iocs = gather('https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist', ip_addr)
+    # Grab the Domains from Palevo Tracker
+    host_ioc = gather('https://palevotracker.abuse.ch/blocklists.php?download=domainblocklist', hostname)
+
+    f = open('Palevo-ip', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
+
+    f = open('Palevo-domains', 'w+')
+    for domain in host_ioc:
+        f.write(domain + '\n')
+    f.close()
 
     print '[+] Palevo domain and IP entries retrieved'
 
 
 ## Pulls updates
 def openbl_update():
-    feed = "http://www.openbl.org/lists/base.txt"
-    iplist = []
-    try:
-        addrs = urlopen(feed).readlines()
-        status = "Connected!"
-        print '[+] Attempting to reach the OpenBL server. Status: ' + status
-    except Exception, e:
-        status = "[-] ERROR: " + str(e)
-        print status
+    ip_addr = regex('ip')
+    iocs = gather('http://www.openbl.org/lists/base.txt', ip_addr)
 
-    for line in addrs:
-        if line.startswith('#') or line.startswith('\n'):
-            pass
-        else:
-            iplist.append(line)  # add hosts to new list
-
-    file = open('OpenBL-ip', 'w+')
-    for item in iplist:
-        file.write(item)
-    file.close()
+    f = open('OpenBL-ip', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
 
     print '[+] Retrieved last 90 days of blacklisted IP addresses from OpenBL'
 
 
 def maldomains_update():
-    domainlist = []
-    feedurl = 'http://mirror1.malwaredomains.com/files/domains.txt'
-    try:
-        feed = urlopen(feedurl).readlines()
-        status = "Connected!"
-        print '[*] Opening Malware Domains blacklist. Status: ' + status
-    except Exception, e:
-        status = "[-] ERROR: " + str(e)
+    hostname = regex('domain')
+    iocs = gather('http://mirror1.malwaredomains.com/files/domains.txt', hostname)
 
-    for line in feed:
-        if line.startswith('#') or line.startswith('\n'):
-            pass
-        else:
-            split_mdl = re.split(r'\t+', line.lstrip('\t'))
-            if unicode(split_mdl[0]).isnumeric():
-                split_mdl.pop(0)
-            domain = split_mdl[0] + '\n'
-            domainlist.append(domain)
+    f = open('Maldomains', 'w+')
+    for ioc in iocs:
+        f.write(ioc + '\n')
+    f.close()
 
-    file = open('MalDomains', 'w+')
-    for item in domainlist:
-        file.write(item)
-    file.close()
-
-    print '[+] Retrieved latest entries from %s!' % feedurl
+    print '[+] Retrieved latest entries from malwaredomains!'

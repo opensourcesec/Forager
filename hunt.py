@@ -4,6 +4,7 @@ __author__ = 'pendrak0n'
 # indicator in provided CSV or New-line formatted file.
 #
 
+import tools
 import sys
 import re
 import os
@@ -11,7 +12,7 @@ from time import sleep
 
 def search(ioc):
     os.chdir('../')
-    patt = re.compile('((?:[0-9]{1,3}\.){3}[0-9]{1,3})')
+    patt = tools.regex('ip')
 
     if ioc[-3:] == 'csv':
         print '[*] Pulling indicators as CSV values'
