@@ -10,7 +10,7 @@ import re
 import os
 from time import sleep
 
-def search(ioc):
+def search_file(ioc):
     os.chdir('../')
     patt = tools.regex('ip')
 
@@ -40,7 +40,7 @@ def search(ioc):
     perc = 0.0
     prog = 0.0
     count = 0
-    matched = open('../matches.txt', 'w')
+    matched = open('../matches.txt', 'w+')
 
     for item in ioc_list:
         for i in dir:
@@ -67,6 +67,39 @@ def search(ioc):
     print '[+] Search complete.'
 
 
+def single_search(ioc):
+    os.chdir('../intel')
+    dirs = os.listdir('.')
+
+    total = float(len(dirs))
+    print 'there are %d files in Intel dir' % total
+
+    oneperc = total/100.0
+    perc = 0.0
+    prog = 0.0
+    count = 0.0
+    matched = open('../matches.txt', 'w+')
+
+    for i_file in dirs:
+        f2 = open(i_file, 'r')
+        contents = f2.readlines()
+        for line in contents:
+            if ioc in line:
+                info = line.rstrip('\n') + ' --> ' + i_file + '\n'
+                matched.write(info)
+            else:
+                pass
+            f2.close()
+
+        count += 1.0
+
+        if count > oneperc:
+            prog += oneperc
+            perc = prog/total
+            update_progress(perc)
+            count = 0.0
+        else:
+            pass
 
 def update_progress(progress):
     barLength = 20 # Modify this to change the length of the progress bar

@@ -47,16 +47,20 @@ def main():
     ensure_dir()
     os.chdir('intel')
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("--feeds", type=str, choices=['list', 'update'], help="Choose menu option:\n\
-    1. Show list of current feeds to update individually\n\
-    2. Update all feeds")
-    parser.add_argument('--search', type=str, nargs='?', const=1, help='Searches through Intel dir for provided IOCs')
+    parser.add_argument("--feeds", type=str, choices=['list', 'update'], help="Manipulates intelligence feeds\n\
+    List - Show list of current feeds to update individually\n\
+    Update - Update all feeds")
+    parser.add_argument('--search', action="store_true", help='Searches through the intel dir for matches')
+    parser.add_argument('-s', type=str, nargs='?', help="Accepts a single IP address")
+    parser.add_argument('-f', type=str, nargs='?', help="Receives a file of indicators to search through.")
 
     args = parser.parse_args()
 
     if args.search:
-        ioc_file = args.search
-        hunt.search(ioc_file)
+        if args.s:
+            hunt.single_search(args.s)
+        elif args.f:
+            hunt.search_file(args.f)
 
     elif args.feeds == 'update':
         print '[*] Updating all feeds'
