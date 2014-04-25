@@ -20,6 +20,22 @@ def run_modules():
     feeds.dshield_high_update()
     feeds.spyeye_tracker_update()
     feeds.palevo_tracker_update()
+    feeds.fdnc_angler_update()
+    feeds.fdnc_angler8080_update()
+    feeds.fdnc_Blackhole_update()
+    feeds.fdnc_BlackOS_update()
+    feeds.fdnc_FlashPack_update()
+    feeds.fdnc_GoonEK_update()
+    feeds.fdnc_GrandsoftEK_update()
+    feeds.fdnc_MagnitudeEK_update()
+    feeds.fdnc_NeutrinoEK_update()
+    feeds.fdnc_NuclearEK_update()
+    feeds.fdnc_SweetOrangeEK_update()
+    feeds.fdnc_StyxEK_update()
+    feeds.fdnc_FakeCodecEK_update()
+    feeds.fdnc_StyxPLEK_update()
+    feeds.fdnc_BadTDS_update()
+    feeds.fdnc_Browlock_update()
 
 def ensure_dir():
     folder = 'intel'
