@@ -40,8 +40,11 @@ def gather(url, rex):
         else:
             ioc = rex.findall(line)
             ioc = ''.join(ioc)
-            ioc_list.append(ioc)
-            count += 1
+            if ioc in ioc_list:
+                pass
+            else:
+                ioc_list.append(ioc)
+                count += 1
 
     print '[+] Gathered %d indicators from %s' % (count, url)
     return ioc_list
