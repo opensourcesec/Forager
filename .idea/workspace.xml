@@ -26,27 +26,36 @@
       <file leaf-file-name="IntelMaster.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IntelMaster.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="20" selection-start="1870" selection-end="1870" vertical-scroll-proportion="0.0" vertical-offset="883" max-vertical-offset="1818">
+            <state line="93" column="0" selection-start="2825" selection-end="2825" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1854">
               <folding>
-                <element signature="e#101#116#0" expanded="true" />
+                <element signature="e#99#114#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tools.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="tools.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tools.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="63" selection-start="445" selection-end="445" vertical-scroll-proportion="0.3657754" vertical-offset="0" max-vertical-offset="936">
+            <state line="2" column="8" selection-start="35" selection-end="35" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="936">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hunt.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="feeds.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/feeds.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="0" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8694">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hunt.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hunt.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="22" selection-start="2145" selection-end="2145" vertical-scroll-proportion="0.0" vertical-offset="1638" max-vertical-offset="2286">
+            <state line="24" column="8" selection-start="551" selection-end="551" vertical-scroll-proportion="0.31478536" vertical-offset="162" max-vertical-offset="1926">
               <folding />
             </state>
           </provider>
@@ -65,20 +74,20 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/outbound_external_chi.txt" />
         <option value="$PROJECT_DIR$/intel/MDL-ip" />
-        <option value="$PROJECT_DIR$/feeds.py" />
         <option value="$PROJECT_DIR$/matches.txt" />
         <option value="$PROJECT_DIR$/indicators.txt" />
-        <option value="$PROJECT_DIR$/hunt.py" />
-        <option value="$PROJECT_DIR$/IntelMaster.py" />
         <option value="$PROJECT_DIR$/tools.py" />
+        <option value="$PROJECT_DIR$/IntelMaster.py" />
+        <option value="$PROJECT_DIR$/feeds.py" />
+        <option value="$PROJECT_DIR$/hunt.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-2" />
-    <option name="y" value="25" />
+    <option name="x" value="1022" />
+    <option name="y" value="-3" />
     <option name="width" value="1924" />
-    <option name="height" value="1057" />
+    <option name="height" value="1087" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -130,7 +139,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -157,7 +166,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="IntelMaster" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/IntelMaster.py" />
-      <option name="PARAMETERS" value="-h" />
+      <option name="PARAMETERS" value="--search -f indicators.txt" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
@@ -302,18 +311,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="25" width="1924" height="1057" extended-state="6" />
-    <editor active="false" />
+    <frame x="1022" y="-3" width="1924" height="1087" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.099582896" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12760417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33925927" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33870968" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -343,9 +352,32 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/IntelMaster.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="20" selection-start="1870" selection-end="1870" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1818">
+          <folding>
+            <element signature="e#99#114#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="63" selection-start="445" selection-end="445" vertical-scroll-proportion="0.0" vertical-offset="396" max-vertical-offset="936">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hunt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="22" selection-start="2145" selection-end="2145" vertical-scroll-proportion="0.0" vertical-offset="1638" max-vertical-offset="2286">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IntelMaster.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="61" column="20" selection-start="1870" selection-end="1870" vertical-scroll-proportion="0.0" vertical-offset="1026" max-vertical-offset="1818">
           <folding>
-            <element signature="e#101#116#0" expanded="true" />
+            <element signature="e#99#114#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -380,7 +412,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="49" column="19" selection-start="1262" selection-end="1262" vertical-scroll-proportion="0.0" vertical-offset="882" max-vertical-offset="1458">
           <folding>
-            <element signature="e#101#116#0" expanded="true" />
+            <element signature="e#99#114#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -408,7 +440,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="49" column="19" selection-start="1262" selection-end="1262" vertical-scroll-proportion="0.0" vertical-offset="882" max-vertical-offset="1458">
           <folding>
-            <element signature="e#101#116#0" expanded="true" />
+            <element signature="e#99#114#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -429,7 +461,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="4" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1458">
           <folding>
-            <element signature="e#101#116#0" expanded="true" />
+            <element signature="e#99#114#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -456,67 +488,53 @@
         <state line="11" column="103" selection-start="456" selection-end="456" vertical-scroll-proportion="0.21758242" vertical-offset="0" max-vertical-offset="910" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/intel/MDL-domains">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1411" column="0" selection-start="26945" selection-end="26945" vertical-scroll-proportion="60.615753" vertical-offset="0" max-vertical-offset="25506" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/intel/MDL-ip">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="25470" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="24336">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/intel/DShield-HighPri-Domains">
+    <entry file="file://$PROJECT_DIR$/intel/MDL-domains">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="12" selection-start="887" selection-end="887" vertical-scroll-proportion="3.5226731" vertical-offset="0" max-vertical-offset="75132" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/feeds.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="26" selection-start="1972" selection-end="1972" vertical-scroll-proportion="0.0" vertical-offset="1029" max-vertical-offset="7722" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/intel/Alienvault-ip">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="9" selection-start="44" selection-end="57" vertical-scroll-proportion="0.04568528" vertical-offset="36" max-vertical-offset="3657438" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/intel/BlackholeEK-domains">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1314" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/intel/BlackholeEK-ip">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="6" selection-start="0" selection-end="15" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1314" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hunt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="22" selection-start="2145" selection-end="2145" vertical-scroll-proportion="0.0" vertical-offset="439" max-vertical-offset="2214">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="25920">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IntelMaster.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="20" selection-start="1870" selection-end="1870" vertical-scroll-proportion="0.0" vertical-offset="883" max-vertical-offset="1818">
+        <state line="93" column="0" selection-start="2825" selection-end="2825" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1854">
           <folding>
-            <element signature="e#101#116#0" expanded="true" />
+            <element signature="e#99#114#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/intel/Angler8080EK-ip">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="935">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="63" selection-start="445" selection-end="445" vertical-scroll-proportion="0.3657754" vertical-offset="0" max-vertical-offset="936">
+        <state line="2" column="8" selection-start="35" selection-end="35" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="936">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/feeds.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8694">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/matches.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="13" selection-start="571" selection-end="571" vertical-scroll-proportion="0.4864865" vertical-offset="0" max-vertical-offset="774">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hunt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="8" selection-start="551" selection-end="551" vertical-scroll-proportion="0.31478536" vertical-offset="162" max-vertical-offset="1926">
           <folding />
         </state>
       </provider>

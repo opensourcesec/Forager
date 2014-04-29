@@ -1,47 +1,49 @@
 #!/usr/bin/env python
-#
-# Developed by Pendrak0n
+__author__ = 'pendrak0n'
 #
 # Purpose: Manage updates from source feeds.py
 #
 
 import argparse
 import os
-import feeds
 import hunt
+import feeds
+from feeds import *
 from sys import exit
 
 
 def run_modules():
-    feeds.MDL_update()
-    feeds.malc0de_update()
-    feeds.feodo_update()
-    feeds.alienvault_update()
-    feeds.dshield_high_update()
-    feeds.spyeye_tracker_update()
-    feeds.palevo_tracker_update()
-    feeds.fdnc_angler_update()
-    feeds.fdnc_angler8080_update()
-    feeds.fdnc_Blackhole_update()
-    feeds.fdnc_BlackOS_update()
-    feeds.fdnc_FlashPack_update()
-    feeds.fdnc_GoonEK_update()
-    feeds.fdnc_GrandsoftEK_update()
-    feeds.fdnc_MagnitudeEK_update()
-    feeds.fdnc_NeutrinoEK_update()
-    feeds.fdnc_NuclearEK_update()
-    feeds.fdnc_SweetOrangeEK_update()
-    feeds.fdnc_StyxEK_update()
-    feeds.fdnc_FakeCodecEK_update()
-    feeds.fdnc_StyxPLEK_update()
-    feeds.fdnc_BadTDS_update()
-    feeds.fdnc_Browlock_update()
+    MDL_update()
+    malc0de_update()
+    feodo_update()
+    alienvault_update()
+    dshield_high_update()
+    spyeye_tracker_update()
+    palevo_tracker_update()
+    fdnc_angler_update()
+    fdnc_angler8080_update()
+    fdnc_Blackhole_update()
+    fdnc_BlackOS_update()
+    fdnc_FlashPack_update()
+    fdnc_GoonEK_update()
+    fdnc_GrandsoftEK_update()
+    fdnc_MagnitudeEK_update()
+    fdnc_NeutrinoEK_update()
+    fdnc_NuclearEK_update()
+    fdnc_SweetOrangeEK_update()
+    fdnc_StyxEK_update()
+    fdnc_FakeCodecEK_update()
+    fdnc_StyxPLEK_update()
+    fdnc_BadTDS_update()
+    fdnc_Browlock_update()
+
 
 def ensure_dir():
     folder = 'intel'
     if not os.path.exists(folder):
         os.makedirs(folder)
         print '[+] Created new directory: intel'
+
 
 def main():
     ensure_dir()

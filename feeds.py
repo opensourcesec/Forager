@@ -1,15 +1,17 @@
+__author__ = 'pendrak0n'
 #
 # Purpose: Import module for pulling and formatting
 #          all necessary intelligence feeds
 #
 
-from urllib2 import urlopen
-import re
 from tools import gather, regex
+
+ip_addr = regex('ip')
+hostname = regex('domain')
+
 
 ## Pull updates from Malc0de
 def malc0de_update():
-    ip_addr = regex('ip')
     iocs = gather('http://malc0de.com/bl/IP_Blacklist.txt', ip_addr)
     f = open('Malc0de-ip', 'w+')
     for ioc in iocs:
@@ -21,8 +23,6 @@ def malc0de_update():
 
 ## Pull updates from Malware Domain List
 def MDL_update():
-    ip_addr = regex('ip')
-    hostname = regex('domain')
     iocs = gather('http://www.malwaredomainlist.com/hostslist/ip.txt', ip_addr)
     host_ioc = gather('http://www.malwaredomainlist.com/hostslist/hosts.txt', hostname)
 
@@ -41,8 +41,6 @@ def MDL_update():
 
 ## Pulls updates from Feodo Tracker
 def feodo_update():
-    ip_addr = regex('ip')
-    hostname = regex('domain')
     iocs = gather('https://feodotracker.abuse.ch/blocklist/?download=ipblocklist', ip_addr)
     host_ioc = gather('https://feodotracker.abuse.ch/blocklist/?download=domainblocklist', hostname)
 
@@ -61,7 +59,6 @@ def feodo_update():
 
 ## Pulls updates from reputation.alienvault.com
 def alienvault_update():
-    ip_addr = regex('ip')
     iocs = gather('https://reputation.alienvault.com/reputation.generic', ip_addr)
 
     f = open('Alienvault-ip', 'w+')
@@ -74,7 +71,6 @@ def alienvault_update():
 
 ## Pulls updates from DShield High Pri suspicious domain list
 def dshield_high_update():
-    hostname = regex('domain')
     iocs = gather('http://www.dshield.org/feeds/suspiciousdomains_High.txt', hostname)
 
     f = open('DShield-HighPri-Domains', 'w+')
@@ -87,9 +83,6 @@ def dshield_high_update():
 
 ## Pulls updates from Spyeye Tracker
 def spyeye_tracker_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from Spyeye Tracker
     iocs = gather('https://spyeyetracker.abuse.ch/blocklist.php?download=ipblocklist', ip_addr)
     # Grab the Domains from Spyeye Tracker
@@ -110,9 +103,6 @@ def spyeye_tracker_update():
 
 ## Pulls updates from Zeus Tracker
 def zeus_tracker_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from Zeus Tracker
     iocs = gather('https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist', ip_addr)
     # Grab the Domains from Zeus Tracker
@@ -133,9 +123,6 @@ def zeus_tracker_update():
 
 ## Pulls updates from Palevo Tracker
 def palevo_tracker_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from Palevo Tracker
     iocs = gather('https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist', ip_addr)
     # Grab the Domains from Palevo Tracker
@@ -156,9 +143,6 @@ def palevo_tracker_update():
 
 ##Pulls Angler EK FDNC
 def fdnc_angler_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/AnglerEK/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -178,9 +162,6 @@ def fdnc_angler_update():
 
 ##Pulls Angler EK RU:8080 FDNC
 def fdnc_angler8080_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/AnglerRU8080/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -200,9 +181,6 @@ def fdnc_angler8080_update():
 
 ##Pulls BlackHole EK FDNC
 def fdnc_Blackhole_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/BHEK/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -222,9 +200,6 @@ def fdnc_Blackhole_update():
 
 ##Pulls BlackOS EK FDNC
 def fdnc_BlackOS_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/BlackOS/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -244,9 +219,6 @@ def fdnc_BlackOS_update():
 
 ##Pulls FlashPack EK FDNC
 def fdnc_FlashPack_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/FlashPack/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -266,9 +238,6 @@ def fdnc_FlashPack_update():
 
 ##Pulls Goon EK FDNC
 def fdnc_GoonEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/Goon/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -288,9 +257,6 @@ def fdnc_GoonEK_update():
 
 ##Pulls GrandSoft EK FDNC
 def fdnc_GrandsoftEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/Grandsoft/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -311,9 +277,6 @@ def fdnc_GrandsoftEK_update():
 
     ##Pulls Magnitude EK FDNC
 def fdnc_MagnitudeEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/Magnitude/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -334,9 +297,6 @@ def fdnc_MagnitudeEK_update():
 
         ##Pulls Neutrino EK FDNC
 def fdnc_NeutrinoEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/Neutrino/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -358,9 +318,6 @@ def fdnc_NeutrinoEK_update():
 
         ##Pulls Nuclear EK FDNC
 def fdnc_NuclearEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/NuclearPack/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -382,9 +339,6 @@ def fdnc_NuclearEK_update():
 
         ##Pulls SweetOrange EK FDNC
 def fdnc_SweetOrangeEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/SweetOrange/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -404,9 +358,6 @@ def fdnc_SweetOrangeEK_update():
 
         ##Pulls Styx EK FDNC
 def fdnc_StyxEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/Styx/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -426,9 +377,6 @@ def fdnc_StyxEK_update():
 
         ##Pulls FakeCodec EK FDNC
 def fdnc_FakeCodecEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/FakeCodecRotator/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -448,9 +396,6 @@ def fdnc_FakeCodecEK_update():
 
         ##Pulls StyxPL EK FDNC
 def fdnc_StyxPLEK_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/Sakura_KovtZaccess/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -471,9 +416,6 @@ def fdnc_StyxPLEK_update():
 
         ##Pulls BAD TDS FDNC
 def fdnc_BadTDS_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/Sutra2NP/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -494,9 +436,6 @@ def fdnc_BadTDS_update():
 
         ##Pulls BrowLock Cyber FDNC
 def fdnc_Browlock_update():
-    hostname = regex('domain')
-    ip_addr = regex('ip')
-
     # Grab IP's from FDNC tracker
     iocs = gather('http://files.dontneedcoffee.com/tracking/BrowLockCyber/domains.txt', ip_addr)
     # Grab the Domains from FDNC Tracker
@@ -518,7 +457,6 @@ def fdnc_Browlock_update():
 
 ## Pulls updates
 def openbl_update():
-    ip_addr = regex('ip')
     iocs = gather('http://www.openbl.org/lists/base.txt', ip_addr)
 
     f = open('OpenBL-ip', 'w+')
@@ -530,7 +468,6 @@ def openbl_update():
 
 
 def maldomains_update():
-    hostname = regex('domain')
     iocs = gather('http://mirror1.malwaredomains.com/files/domains.txt', hostname)
 
     f = open('Maldomains', 'w+')
