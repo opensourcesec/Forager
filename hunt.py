@@ -40,6 +40,7 @@ def search_file(ioc):
     perc = 0.0
     prog = 0.0
     count = 0
+    matches = 0
     matched = open('../matches.txt', 'w+')
 
     for item in ioc_list:
@@ -50,6 +51,7 @@ def search_file(ioc):
                 if item in line:
                     info = item + ' --> ' + i + '\n'
                     matched.write(info)
+                    matches += 1
             else:
                 pass
             f2.close()
@@ -65,6 +67,7 @@ def search_file(ioc):
             pass
 
     print '[+] Search complete.'
+    print '[+] %d matches found and stored in matches.txt' % matches
 
 
 def single_search(ioc):
@@ -79,6 +82,7 @@ def single_search(ioc):
     prog = 0.0
     count = 0.0
     matched = open('../matches.txt', 'w+')
+    matches = 0
 
     for i_file in dirs:
         f2 = open(i_file, 'r')
@@ -87,6 +91,7 @@ def single_search(ioc):
             if ioc in line:
                 info = line.rstrip('\n') + ' --> ' + i_file + '\n'
                 matched.write(info)
+                matches += 1
             else:
                 pass
             f2.close()
@@ -100,6 +105,9 @@ def single_search(ioc):
             count = 0.0
         else:
             pass
+
+    print '[+] Search complete.'
+    print '[+] %d matches found and stored in matches.txt' % matches
 
 def update_progress(progress):
     barLength = 20 # Modify this to change the length of the progress bar

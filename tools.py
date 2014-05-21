@@ -20,7 +20,7 @@ def connect(url):
 
 def regex(type):
     if type == 'ip':
-        pattern = re.compile('((?:[0-9]{1,3}\.){3}[0-9]{1,3})')
+        pattern = re.compile('((?:[12]\d?\d?\.){3}[12]\d?\d?)')
     elif type == 'domain':
         pattern = re.compile('([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.[a-z]{2,5}(?:[0-9]{1,5})?)')
     else:
