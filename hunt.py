@@ -21,8 +21,8 @@ def search_file(ioc):
     try:
         f = open(ioc, 'r').readlines()
     except:
-        sys.stderr.write('[!] Cannot locate file: %s.'\
-        ' Please provide the full path.' % ioc)
+        sys.stderr.write("[!] Cannot locate file: %s.\
+        Please provide the full path." % ioc)
         exit(0)
 
     ioc_list = []
@@ -36,11 +36,9 @@ def search_file(ioc):
 
     total = float(len(ioc_list))
     print '[*] Found %d indicators in %s' % (total, ioc)
-    oneperc = total/100.0
-    perc = 0.0
+    frac = 1.0/total
     prog = 0.0
-    count = 0
-    matches = 0
+
     matched = open('../matches.txt', 'w+')
 
     for item in ioc_list:
@@ -56,15 +54,8 @@ def search_file(ioc):
                 pass
             f2.close()
 
-        count += 1.0
-
-        if count > oneperc:
-            prog += oneperc
-            perc = prog/total
-            update_progress(perc)
-            count = 0
-        else:
-            pass
+        prog += frac
+        update_progress(prog)
 
     print '[+] Search complete.'
     print '[+] %d matches found and stored in matches.txt' % matches
@@ -74,13 +65,15 @@ def single_search(ioc):
     os.chdir('../intel')
     dirs = os.listdir('.')
 
+    if len(dirs) == 0:
+        sys.stderr.write("[!] Cannot complete search, no files in intel directory. Exiting..\n")
+        sys.exit(0)
+
     total = float(len(dirs))
     print 'there are %d files in Intel dir' % total
 
-    oneperc = total/100.0
-    perc = 0.0
+    frac = 1.0/total
     prog = 0.0
-    count = 0.0
     matched = open('../matches.txt', 'w+')
     matches = 0
 
@@ -96,21 +89,15 @@ def single_search(ioc):
                 pass
             f2.close()
 
-        count += 1.0
+        prog += frac
+        update_progress(prog)
 
-        if count > oneperc:
-            prog += oneperc
-            perc = prog/total
-            update_progress(perc)
-            count = 0.0
-        else:
-            pass
 
     print '[+] Search complete.'
     print '[+] %d matches found and stored in matches.txt' % matches
 
 def update_progress(progress):
-    barLength = 20 # Modify this to change the length of the progress bar
+    barLength = 20  # Modify this to change the length of the progress bar
     status = ""
     if isinstance(progress, int):
         progress = float(progress)

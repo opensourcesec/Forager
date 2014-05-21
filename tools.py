@@ -20,7 +20,7 @@ def connect(url):
 
 def regex(type):
     if type == 'ip':
-        pattern = re.compile('((?:[12]\d?\d?\.){3}[12]\d?\d?)')
+        pattern = re.compile('((?:(?:[12]\d?\d?|[\d+]{1,2})\.){3}(?:[12]\d?\d?|[\d+]{1,2}))')
     elif type == 'domain':
         pattern = re.compile('([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.[a-z]{2,5}(?:[0-9]{1,5})?)')
     else:
@@ -39,12 +39,12 @@ def gather(url, rex):
             pass
         else:
             ioc = rex.findall(line)
-            ioc = ''.join(ioc)
-            if ioc in ioc_list:
-                pass
-            else:
-                ioc_list.append(ioc)
-                count += 1
+            for i in ioc:
+                if i in ioc_list:
+                    pass
+                else:
+                    ioc_list.append(i)
+                    count += 1
 
     print '[+] Gathered %d indicators from %s' % (count, url)
     return ioc_list
