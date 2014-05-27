@@ -20,22 +20,6 @@ def run_modules():
     dshield_high_update()
     spyeye_tracker_update()
     palevo_tracker_update()
-    fdnc_angler_update()
-    fdnc_angler8080_update()
-    fdnc_Blackhole_update()
-    fdnc_BlackOS_update()
-    fdnc_FlashPack_update()
-    fdnc_GoonEK_update()
-    fdnc_GrandsoftEK_update()
-    fdnc_MagnitudeEK_update()
-    fdnc_NeutrinoEK_update()
-    fdnc_NuclearEK_update()
-    fdnc_SweetOrangeEK_update()
-    fdnc_StyxEK_update()
-    fdnc_FakeCodecEK_update()
-    fdnc_StyxPLEK_update()
-    fdnc_BadTDS_update()
-    fdnc_Browlock_update()
 
 
 def ensure_dir():
@@ -52,13 +36,13 @@ def main():
     parser.add_argument("--feeds", type=str, choices=['list', 'update'], help="Manipulates intelligence feeds\n\
     List - Show list of current feeds to update individually\n\
     Update - Update all feeds")
-    parser.add_argument('--search', action="store_true", help='Searches through the intel dir for matches')
+    parser.add_argument('--hunt', action="store_true", help='Searches through the intel dir for matches')
     parser.add_argument('-s', type=str, nargs='?', help="Accepts a single IP address")
     parser.add_argument('-f', type=str, nargs='?', help="Receives a file of indicators to search through.")
 
     args = parser.parse_args()
 
-    if args.search:
+    if args.hunt:
         if args.s:
             hunt.single_search(args.s)
         elif args.f:
