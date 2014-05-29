@@ -1,4 +1,4 @@
-Intel-Master
+The Forager
 ============
 
 Threat Intelligence hunter-gatherer: Fetches intel from various open-source feeds and formats them into new-line separated files for each feed. Also provides functionality to search through gathered indicators efficiently.
