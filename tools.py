@@ -48,3 +48,11 @@ def gather(url, rex):
 
     print '[+] Gathered %d indicators from %s' % (count, url)
     return ioc_list
+
+
+def add2file(filename, ioc_list):
+    f = open(filename, 'w+')
+
+    for ioc in ioc_list:
+        f.write(ioc + '\n')
+    f.close()

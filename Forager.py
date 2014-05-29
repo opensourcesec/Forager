@@ -20,6 +20,9 @@ def run_modules():
     dshield_high_update()
     spyeye_tracker_update()
     palevo_tracker_update()
+    nothink_malware_dns()
+    nothink_malware_http()
+    nothink_malware_irc()
 
 
 def ensure_dir():
