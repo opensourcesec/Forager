@@ -8,6 +8,7 @@ import argparse
 import os
 import hunt
 import feeds
+from tools import extract
 from feeds import *
 from sys import exit
 
@@ -42,6 +43,7 @@ def main():
     parser.add_argument('--hunt', action="store_true", help='Searches through the intel dir for matches')
     parser.add_argument('-s', type=str, nargs='?', help="Accepts a single IP address")
     parser.add_argument('-f', type=str, nargs='?', help="Receives a file of indicators to search through.")
+    parser.add_argument("--extract", type=str, nargs=1, help="Extracts indicators from a given file")
 
     args = parser.parse_args()
 
@@ -49,7 +51,7 @@ def main():
         if args.s:
             hunt.single_search(args.s)
         elif args.f:
-            hunt.search_file(args.f)
+            hunt.search_intel(args.f)
 
     elif args.feeds == 'update':
         print '[*] Updating all feeds'
@@ -78,6 +80,12 @@ def main():
         else:
             print '[-] Invalid option. Exiting...'
             exit(0)
+
+    elif args.extract:
+        os.chdir('../')
+        filename = args.extract[0]
+        print '[*] Extracting indicators from %s' % filename
+        extract(filename)
 
     else:
         parser.print_help()

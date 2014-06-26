@@ -10,7 +10,7 @@ import re
 import os
 from time import sleep
 
-def search_file(ioc):
+def search_intel(ioc):
     os.chdir('../')
     patt = tools.regex('ip')
 
@@ -38,6 +38,7 @@ def search_file(ioc):
     print '[*] Found %d indicators in %s' % (total, ioc)
     frac = 1.0/total
     prog = 0.0
+    matches = 0
 
     matched = open('../matches.txt', 'w+')
 
@@ -96,6 +97,7 @@ def single_search(ioc):
     print '[+] Search complete.'
     print '[+] %d matches found and stored in matches.txt' % matches
 
+
 def update_progress(progress):
     barLength = 20  # Modify this to change the length of the progress bar
     status = ""
@@ -114,3 +116,4 @@ def update_progress(progress):
     text = "\rProgress: [{0}] {1}% {2}".format("#"*block + "-"*(barLength-block), progress*100, status)
     sys.stdout.write(text)
     sys.stdout.flush()
+
