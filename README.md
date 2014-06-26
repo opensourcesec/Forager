@@ -13,7 +13,7 @@ Feeds
 (Invoked with --feeds)
 
 * 'list' -- Lists all feeds and allows user to choose a single feed to update. 
-* 'update' -- Updates all feed modules in feeds.py
+* 'update' -- Updates all feed modules listed in Forager
 
 Hunting 
 ---------
