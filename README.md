@@ -22,3 +22,11 @@ Hunting
 
 1. '-f [file path]' Provides the capability to search through the intel directory results for a specific list of indicators
 2. '-s [IPv4 address]' Searches through intel directory for a single IP address
+
+Extract
+--------
+
+(Invoked with --extract)
+
+* Reads in a file and extracts IP address and domain indicators
+* Places the extracted indicators into the intel directory 
