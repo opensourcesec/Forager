@@ -12,16 +12,16 @@ Feeds
 
 (Invoked with --feeds)
 
-1. 'list' -- Lists all feeds and allows user to choose a single feed to update. 
-2. 'update' -- Updates all feed modules in feeds.py
+* 'list' -- Lists all feeds and allows user to choose a single feed to update. 
+* 'update' -- Updates all feed modules in feeds.py
 
 Hunting 
 ---------
 
 (Invoked with --hunt)
 
-1. '-f [file path]' Provides the capability to search through the intel directory results for a specific list of indicators
-2. '-s [IPv4 address]' Searches through intel directory for a single IP address
+* '-f [file path]' Provides the capability to search through the intel directory results for a specific list of indicators
+* '-s [IPv4 address]' Searches through intel directory for a single IP address
 
 Extract
 --------
