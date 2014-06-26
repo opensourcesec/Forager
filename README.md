@@ -1,8 +1,8 @@
 The Forager
 ============
 
-Threat Intelligence hunter-gatherer: Fetches intel from various open-source feeds and formats them into new-line separated files for each feed. Also provides functionality to search through gathered indicators efficiently.
- 
+Threat Intelligence hunter-gatherer CLI tool: Provides searching, fetching, extracting, and storage of domain and IP indicators which can then be taken from the new-line formatted files and input into security devices or other tools as watchlists.
+
 NOTE:
 The script creates a file for malicious IP addresses and a file for malicious domains for EACH feed in feeds.py, and then places them in a folder entitled "intel" 
 
