@@ -8,6 +8,7 @@ import re
 import sys
 import urllib2
 from os import chdir
+import pdfConverter
 
 
 def connect(url):
@@ -60,27 +61,30 @@ def add2file(filename, ioc_list):
 
 
 def extract(filename):
+    if filename[-3:] == 'pdf':
+        print '[*] Pulling indicators from PDF'
+        f = pdfConverter.convert_pdf_to_txt(filename)
+    else:
+        f = open(filename, "r").read()
     ip_patt = regex('ip')
     host_patt = regex('domain')
 
     ip_list = []
     domain_list = []
 
-    f = open(filename, "r").readlines()
-    for line in f:
-        ipaddr = ip_patt.findall(line)
-        for i in ipaddr:
-            if i in ip_list:
-                pass
-            else:
-                ip_list.append(i)
+    ipaddr = ip_patt.findall(f)
+    for i in ipaddr:
+        if i in ip_list:
+            pass
+        else:
+            ip_list.append(i)
 
-        domains = host_patt.findall(line)
-        for i in domains:
-            if i in domain_list:
-                pass
-            else:
-                domain_list.append(i)
+    domains = host_patt.findall(f)
+    for i in domains:
+        if i in domain_list:
+            pass
+        else:
+            domain_list.append(i)
 
     chdir('intel/')
 
