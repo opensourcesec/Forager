@@ -4,11 +4,13 @@ __author__ = 'pendrak0n'
 #
 
 from time import sleep
+from os import chdir
+from xlrd import open_workbook, sheet
 import re
 import sys
 import urllib2
-from os import chdir
 import pdfConverter
+import unicodedata
 
 
 def connect(url):
@@ -64,6 +66,29 @@ def extract(filename):
     if filename[-3:] == 'pdf':
         print '[*] Pulling indicators from PDF'
         f = pdfConverter.convert_pdf_to_txt(filename)
+    elif filename[-3:] == 'xls' or filename[-4:] == 'xlsx':
+        f = open_workbook(filename)
+
+        datalist = []
+        vallist = []
+        asciilist = []
+        sheet = f.sheet_by_index(0)
+        cols = sheet.ncols
+
+        for i in range(cols):
+            collist = sheet.col(i)
+            datalist = collist + datalist
+            for cell in datalist:
+                val = cell.value
+                if len(val) < 2:
+                    pass
+                else:
+                    vallist.append(val)
+
+        for item in vallist:
+            ascii_val = unicodedata.normalize('NFKD', item).encode('ascii', 'ignore')
+            asciilist.append(ascii_val)
+        f = ', '.join(asciilist)
     else:
         f = open(filename, "r").read()
     ip_patt = regex('ip')
