@@ -86,7 +86,7 @@ def malwaredomains_update():
 
 
 ## NoThink Honeypots -- DNS Traffic
-def nothink_malware_dns():
+def nothink_malware_dns_update():
     iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', ip_addr)
     host_ioc = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', hostname)
 
@@ -95,7 +95,7 @@ def nothink_malware_dns():
 
 
 ## NoThink Honeypots -- HTTP Traffic
-def nothink_malware_http():
+def nothink_malware_http_update():
     iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', ip_addr)
     host_iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', hostname)
 
@@ -104,6 +104,6 @@ def nothink_malware_http():
 
 
 ## NoThink Honeypots -- IRC Traffic
-def nothink_malware_irc():
+def nothink_malware_irc_update():
     iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_irc.txt', ip_addr)
     add2file('NoThink-IRC', iocs)
