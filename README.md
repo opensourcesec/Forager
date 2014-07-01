@@ -30,6 +30,10 @@ Extract
 
 * Reads in a file and extracts IP address and domain indicators
 * Places the extracted indicators into the intel directory 
+* Currently supported filetypes:
+  * TXT
+  * PDF
+  * XLS/XLSX
 
 ** Note **
 * Prone to false positives when extracting indicators from PDF as whitepapers with indicators will normally also contain URL references 
