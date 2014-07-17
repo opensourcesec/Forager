@@ -18,7 +18,7 @@ def connect(url):
         f = urllib2.urlopen(url).readlines()
         return f
     except:
-        sys.stderr.write('[!] Failed to access %s' % url)
+        sys.stderr.write('[!] Failed to access %s\n' % url)
         sys.exit(0)
 
 
@@ -37,6 +37,7 @@ def gather(url, rex):
     ioc_list = []
     count = 0
     f = connect(url)
+    source = '/'.join(regex('domain').findall(url))
     sleep(2)
     for line in f:
         if line.startswith('/') or line.startswith('#') or line.startswith('\n'):
@@ -50,7 +51,7 @@ def gather(url, rex):
                     ioc_list.append(i)
                     count += 1
 
-    print '[+] Gathered %d indicators from %s' % (count, url)
+    print '[+] Gathered %d items from %s' % (count, source)
     return ioc_list
 
 

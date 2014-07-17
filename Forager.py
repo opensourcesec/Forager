@@ -1,33 +1,30 @@
 #!/usr/bin/env python
 __author__ = 'pendrak0n'
 #
-# Purpose: Manage updates from source feeds.py
+# Main
 #
 
 import argparse
 import os
 import hunt
-import feeds
+from feeds import FeedModules
 from tools import extract
-from feeds import *
 from sys import exit
+from threading import Thread
 
 
 def run_modules():
-    MDL_update()
-    malc0de_update()
-    feodo_update()
-    alienvault_update()
-    dshield_high_update()
-    spyeye_tracker_update()
-    palevo_tracker_update()
-    zeus_tracker_update()
-    nothink_malware_dns_update()
-    nothink_malware_http_update()
-    nothink_malware_irc_update()
-    openbl_update()
-    malwaredomains_update()
+    x = FeedModules()
 
+    for i in dir(x):
+        if i.startswith('_'):
+            pass
+        elif callable:
+            mod=getattr(x, i)
+            t = Thread(target=mod)
+            t.start()
+        else:
+            pass
 
 
 def ensure_dir():
@@ -38,6 +35,7 @@ def ensure_dir():
 
 
 def main():
+    feedmods = FeedModules()
     ensure_dir()
     os.chdir('intel')
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
@@ -60,11 +58,10 @@ def main():
     elif args.feeds == 'update':
         print '[*] Updating all feeds'
         run_modules()
-        print '[+] All Feeds Updated!'
 
     elif args.feeds == 'list':
         print '[*] Please select feed to update:'
-        feed_list = dir(feeds)
+        feed_list = dir(FeedModules)
         newlist = []
         feedcount = 1
         for feed in feed_list:
@@ -79,7 +76,7 @@ def main():
         choice = raw_input('Select feed by numerical ID (1-%d)\n> ' % (len(newlist)))
         if int(choice) in range(1, len(newlist) + 1):  # condition to check if proper feed was selected.
             mod = newlist[int(choice) - 1]   # Using choice number to locate item in the feed list
-            methodToCall = getattr(feeds, mod)  # saving function to call with newlist item as variable
+            methodToCall = getattr(feedmods, mod)  # saving function to call with newlist item as variable
             methodToCall()
         else:
             print '[-] Invalid option. Exiting...'
