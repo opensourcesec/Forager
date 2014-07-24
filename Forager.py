@@ -40,7 +40,7 @@ def run_modules():
         tcount = activeCount()
         sleep(1)
 
-    print '[+] Feed collection complete!'
+    print '[+] Feed collection finished!'
 
 
 def ensure_dir():
