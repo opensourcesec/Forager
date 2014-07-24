@@ -34,7 +34,7 @@ class FeedModules:
         add2file('Feodo-domains', host_ioc)
 
 
-    ## reputation.alienvault.com
+    #reputation.alienvault.com
     def alienvault_update(self):
         iocs = gather('https://reputation.alienvault.com/reputation.generic', ip_addr)
         add2file('Alienvault-ip', iocs)

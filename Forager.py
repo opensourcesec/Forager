@@ -1,30 +1,46 @@
 #!/usr/bin/env python
 __author__ = 'pendrak0n'
 #
-# Main
+# Interface/Main
 #
 
 import argparse
 import os
 import hunt
 from feeds import FeedModules
-from tools import extract
+from tools import extract, update_progress
 from sys import exit
-from threading import Thread
+from threading import Thread, activeCount
+from time import sleep
 
 
 def run_modules():
     x = FeedModules()
-
+    threads = []
     for i in dir(x):
-        if i.startswith('_'):
-            pass
-        elif callable:
-            mod=getattr(x, i)
-            t = Thread(target=mod)
-            t.start()
+        if i.endswith('_update'):
+            mod = getattr(x, i)
+            threads.append(Thread(target=mod, name='%s' % i))
         else:
             pass
+
+    for t in threads:
+        t.start()
+        print 'Initiating thread for: %s' % t.name
+
+    sleep(3)
+    stat = 0.0
+    total = float(len(threads))
+
+    tcount = activeCount()
+    while tcount > 1:
+        stat = total - float(activeCount()) + 1.0
+        prog = stat/total
+        update_progress(prog)
+        tcount = activeCount()
+        sleep(1)
+
+    print '[+] Feed collection complete!'
 
 
 def ensure_dir():
@@ -76,7 +92,7 @@ def main():
         choice = raw_input('Select feed by numerical ID (1-%d)\n> ' % (len(newlist)))
         if int(choice) in range(1, len(newlist) + 1):  # condition to check if proper feed was selected.
             mod = newlist[int(choice) - 1]   # Using choice number to locate item in the feed list
-            methodToCall = getattr(feedmods, mod)  # saving function to call with newlist item as variable
+            methodToCall = getattr(feedmods, mod)  # saving the function with newlist argument as variable
             methodToCall()
         else:
             print '[-] Invalid option. Exiting...'

@@ -18,14 +18,14 @@ def connect(url):
         f = urllib2.urlopen(url).readlines()
         return f
     except:
-        sys.stderr.write('[!] Failed to access %s\n' % url)
+        #sys.stderr.write('[!] Could not connect to: %s\n' % url)
         sys.exit(0)
 
 
-def regex(type):
-    if type == 'ip':
+def regex(ioc_type):
+    if ioc_type == 'ip':
         pattern = re.compile('((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))')
-    elif type == 'domain':
+    elif ioc_type == 'domain':
         pattern = re.compile('([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.[a-z]{2,5}(?:[0-9]{1,5})?)')
     else:
         print '[!] Invalid type specified.'
@@ -51,7 +51,7 @@ def gather(url, rex):
                     ioc_list.append(i)
                     count += 1
 
-    print '[+] Gathered %d items from %s' % (count, source)
+    #print 'Gathered %d items from %s' % (count, source)
     return ioc_list
 
 
@@ -115,7 +115,27 @@ def extract(filename):
     chdir('intel/')
 
     add2file(filename + '_ip', ip_list)
-    print '[+] Wrote IP indicators to %s_ip' % filename
+    print 'Wrote %d IP indicators to %s_ip' % (len(ip_list), filename)
 
     add2file(filename + '_domain', domain_list)
-    print '[+] Wrote Domain indicators to %s_domain' % filename
+    print 'Wrote %d Domain indicators to %s_domain' % (len(domain_list), filename)
+
+
+def update_progress(progress):
+    barLength = 20  # Modify this to change the length of the progress bar
+    status = ""
+    if isinstance(progress, int):
+        progress = float(progress)
+    if not isinstance(progress, float):
+        progress = 0
+        status = "error: progress var must be float\r\n"
+    if progress < 0:
+        progress = 0
+        status = "Halt!\r\n"
+    if progress >= .999:
+        progress = 1
+        status = "Complete!\r\n"
+    block = int(round(barLength*progress))
+    text = "\r[*] Progress: [{0}] {1}% {2}".format("#"*block + "-"*(barLength-block), progress*100, status)
+    sys.stdout.write(text)
+    sys.stdout.flush()
