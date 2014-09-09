@@ -37,5 +37,3 @@ Extraction
 
 _____
 
-Note:
-* Prone to false positives when extracting indicators from PDF as whitepapers with indicators will normally also contain URL references 
