@@ -18,15 +18,25 @@ def connect(url):
         f = urllib2.urlopen(url).readlines()
         return f
     except:
-        #sys.stderr.write('[!] Could not connect to: %s\n' % url)
+        #sys.stdout.write('[!] Could not connect to: %s\n' % url)
         sys.exit(0)
 
 
 def regex(ioc_type):
     if ioc_type == 'ip':
-        pattern = re.compile('((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))')
+        pattern = re.compile("((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))")
     elif ioc_type == 'domain':
-        pattern = re.compile('([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.[a-z]{2,5}(?:[0-9]{1,5})?)')
+        pattern = re.compile("([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.(?:com|net|ru|org|de|uk|jp|br|pl|info|fr|it|cn|in|su|pw|biz))")
+    elif ioc_type == 'md5':
+        pattern = re.compile("([A-Fa-f0-9]{32})")
+    elif ioc_type == 'sha1':
+        pattern = re.compile("\b([A-Fa-f0-9]{40})\b")
+    elif ioc_type == 'sha256':
+        pattern = re.compile("\b([A-Fa-f0-9]{64})\b")
+    elif ioc_type == 'email':
+        pattern = re.compile("[a-zA-Z0-9_]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?!([a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?")
+    elif ioc_type == 'URL':
+        pattern = re.compile("((?:http|ftp|https)\:\/\/(?:[\w+?\.\w+])+[a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]+)")
     else:
         print '[!] Invalid type specified.'
         sys.exit(0)
@@ -37,7 +47,7 @@ def gather(url, rex):
     ioc_list = []
     count = 0
     f = connect(url)
-    source = '/'.join(regex('domain').findall(url))
+    #source = '/'.join(regex('domain').findall(url))
     sleep(2)
     for line in f:
         if line.startswith('/') or line.startswith('#') or line.startswith('\n'):
@@ -56,11 +66,14 @@ def gather(url, rex):
 
 
 def add2file(filename, ioc_list):
-    f = open(filename, 'w+')
+    if len(ioc_list) == 0:
+        pass
+    else:
+        f = open(filename, 'w+')
 
-    for ioc in ioc_list:
-        f.write(ioc + '\n')
-    f.close()
+        for ioc in ioc_list:
+            f.write(ioc + '\n')
+        f.close()
 
 
 def extract(filename):
@@ -94,9 +107,11 @@ def extract(filename):
         f = open(filename, "r").read()
     ip_patt = regex('ip')
     host_patt = regex('domain')
+    md5_patt = regex('md5')
 
     ip_list = []
     domain_list = []
+    md5_list = []
 
     ipaddr = ip_patt.findall(f)
     for i in ipaddr:
@@ -112,6 +127,13 @@ def extract(filename):
         else:
             domain_list.append(i)
 
+    md5_hash = md5_patt.findall(f)
+    for i in md5_hash:
+        if i in md5_list:
+            pass
+        else:
+            md5_list.append(i)
+
     chdir('intel/')
 
     add2file(filename + '_ip', ip_list)
@@ -120,6 +142,8 @@ def extract(filename):
     add2file(filename + '_domain', domain_list)
     print 'Wrote %d Domain indicators to %s_domain' % (len(domain_list), filename)
 
+    add2file(filename + '_md5', md5_list)
+    print 'Wrote %d MD5 hashes to %s_md5' % (len(md5_list), filename)
 
 def update_progress(progress):
     barLength = 20  # Modify this to change the length of the progress bar
