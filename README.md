@@ -28,7 +28,7 @@ Extraction
 
 (Invoked with --extract)
 
-* Reads in a file and extracts IP address and domain indicators
+* Reads in a file and extracts IP address, domain, and MD5 hash indicators
 * Places the extracted indicators into the intel directory 
 * Currently supported filetypes:
   * TXT
