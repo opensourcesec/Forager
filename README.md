@@ -34,6 +34,7 @@ Extraction
   * TXT
   * PDF
   * XLS/XLSX
+  * XML
 
 _____
 
