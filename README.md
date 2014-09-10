@@ -1,4 +1,4 @@
-The Forager
+  Forager
 ============
 
 Threat Intelligence hunter-gatherer CLI tool: Provides searching, fetching, extracting, and storage of various indicators, which can then be taken from the new-line formatted files and input into security devices or other tools as watchlists, or queried for identification of malicious traffic in network logs.
