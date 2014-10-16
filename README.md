@@ -6,7 +6,9 @@ Threat Intelligence hunter-gatherer CLI tool: Provides searching, fetching, extr
 NOTE:
 The script creates a file for EACH indicator type for EACH feed in feeds.py, and then places them in a folder entitled "intel". This will eventually "most likely" be updated in the near future to consist of a database/index, which will be easier to reference than the filesystem alone.
 
-* Requirements: xlrd, pdfminer
+* Dependencies: 
+*   xlrd 
+*   pdfminer
 
 
 Feeds
