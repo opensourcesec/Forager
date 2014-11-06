@@ -1,4 +1,4 @@
-__author__ = 'pendrak0n'
+__author__ = 'y0xda'
 #
 # Purpose: Import module for pulling and formatting
 #          all necessary intelligence feeds
@@ -107,3 +107,9 @@ class FeedModules:
     def nothink_malware_irc_update(self):
         iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_irc.txt', ip_addr)
         add2file('NoThink-IRC', iocs)
+
+    ## Tor Exit Node List	
+    def Tor_Exit_Nodes_update(self):
+	iocs = gather('https://onionoo.torproject.org/details?type=relay&running=true', ip_addr)
+		
+	add2file('TorExitNodes', iocs)

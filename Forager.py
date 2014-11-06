@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-__author__ = 'pendrak0n'
+__author__ = 'y0xda'
 #
 # Interface/Main
 #
@@ -26,7 +26,7 @@ def run_modules():
 
     for t in threads:
         t.start()
-        print 'Initiating thread for: %s' % t.name
+        print 'Initialized: %s' % t.name
 
     sleep(3)
     stat = 0.0
