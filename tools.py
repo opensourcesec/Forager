@@ -24,7 +24,7 @@ def connect(url):
 
 def regex(ioc_type):
     if ioc_type == 'ip':
-        pattern = re.compile("[^a-zA-Z0-9\.]((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))")
+        pattern = re.compile("((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))")
     elif ioc_type == 'domain':
         pattern = re.compile("([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.(?:com|net|ru|org|de|uk|jp|br|pl|info|fr|it|cn|in|su|pw|biz))")
     elif ioc_type == 'md5':
