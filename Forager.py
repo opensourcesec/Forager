@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-__author__ = 'y0xda'
+__author__ = 'pendrak0n'
 #
 # Interface/Main
 #
 
 import argparse
 import os
-import hunt
-from feeds import FeedModules
-from tools import extract, update_progress
+import bin.hunt
+from bin.feeds import FeedModules
+from bin.tools import extract, update_progress
 from sys import exit
 from threading import Thread, activeCount
 from time import sleep
@@ -39,7 +39,6 @@ def run_modules():
         update_progress(prog)
         tcount = activeCount()
         sleep(1)
-
     print '[+] Feed collection finished!'
 
 
@@ -59,6 +58,7 @@ def main():
     '''
 
     print banner
+
 
     feedmods = FeedModules()
     ensure_dir()

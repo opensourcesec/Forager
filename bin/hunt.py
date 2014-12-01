@@ -1,4 +1,4 @@
-__author__ = 'y0xda'
+__author__ = 'pendrak0n'
 #
 # When called, will search through Intel directory for each
 # indicator in provided CSV or New-line formatted file.
@@ -10,7 +10,7 @@ import re
 import os
 from time import sleep
 
-def search_intel(ioc):
+def search_file(ioc):
     os.chdir('../')
     patt = tools.regex('ip')
 
@@ -38,7 +38,6 @@ def search_intel(ioc):
     print '[*] Found %d indicators in %s' % (total, ioc)
     frac = 1.0/total
     prog = 0.0
-    matches = 0
 
     matched = open('../matches.txt', 'w+')
 
@@ -56,10 +55,10 @@ def search_intel(ioc):
             f2.close()
 
         prog += frac
-        update_progress(prog)
+        tools.update_progress(prog)
 
     print '[+] Search complete.'
-    print '[+] %d matches found and stored in matches.txt' % matches
+    print '%d matches found and stored in matches.txt' % matches
 
 
 def single_search(ioc):
@@ -71,7 +70,7 @@ def single_search(ioc):
         sys.exit(0)
 
     total = float(len(dirs))
-    print 'there are %d files in Intel dir' % total
+    print 'There are %d files in Intel dir' % total
 
     frac = 1.0/total
     prog = 0.0
@@ -91,29 +90,10 @@ def single_search(ioc):
             f2.close()
 
         prog += frac
-        update_progress(prog)
+        tools.update_progress(prog)
 
 
     print '[+] Search complete.'
-    print '[+] %d matches found and stored in matches.txt' % matches
+    print '%d matches found and stored in matches.txt' % matches
 
-
-def update_progress(progress):
-    barLength = 20  # Modify this to change the length of the progress bar
-    status = ""
-    if isinstance(progress, int):
-        progress = float(progress)
-    if not isinstance(progress, float):
-        progress = 0
-        status = "error: progress var must be float\r\n"
-    if progress < 0:
-        progress = 0
-        status = "Halt...\r\n"
-    if progress >= .999:
-        progress = 1
-        status = "Done...\r\n"
-    block = int(round(barLength*progress))
-    text = "\rProgress: [{0}] {1}% {2}".format("#"*block + "-"*(barLength-block), progress*100, status)
-    sys.stdout.write(text)
-    sys.stdout.flush()
 
