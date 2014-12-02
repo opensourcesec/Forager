@@ -1,4 +1,4 @@
-__author__ = 'pendrak0n'
+__author__ = 'y0xda'
 #
 # When called, will search through Intel directory for each
 # indicator in provided CSV or New-line formatted file.

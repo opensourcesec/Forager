@@ -1,4 +1,4 @@
-__author__ = 'pendrak0n'
+__author__ = 'y0xda'
 #
 # Purpose: Tools for gathering IP addresses, domain names, URL's, etc..
 #
