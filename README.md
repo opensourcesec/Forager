@@ -1,7 +1,13 @@
-The Forager
-============
+Forager  ![alt tag](img/Forager.png)
+=======
 
-Threat Intelligence hunter-gatherer CLI tool: Provides searching, fetching, extracting, and storage of domain and IP indicators which can then be taken from the new-line formatted files and input into security devices or other tools as watchlists.
+Threat Intelligence hunter-gatherer CLI tool. 
+Features:
+
+* Fetch domain and IPv4 indicators which can then be taken from the new-line formatted files and input into security devices or other tools as watchlists.
+* Extract domain and IPv4 indicators from Whitepapers
+* Search through the indicator set by single IP or with an IOC file
+* Generate JSON feeds for consumption by CarbonBlack
 
 NOTE:
 The script creates a file for malicious IP addresses and a file for malicious domains for EACH feed in feeds.py, and then places them in a folder entitled "intel" 
@@ -35,7 +41,18 @@ Extraction
   * PDF
   * XLS/XLSX
 
-_____
-
 Note:
-* Prone to false positives when extracting indicators from PDF as whitepapers with indicators will normally also contain URL references 
+
+* Prone to false positives when extracting indicators from PDF as whitepapers with indicators will normally also contain URL references
+
+CarbonBlack Feeds
+-----------------
+
+(Invoked with --cbgen)
+
+* Generates JSON feeds of all of the IOCs in the intel dir
+* Utilizes an interactive CLI prompt to allow the user to provide feed metadata the first time CBgen is run
+
+CB Feed Future:
+
+* Build in feed server so that the CarbonBlack server can automatically ingest the feeds
