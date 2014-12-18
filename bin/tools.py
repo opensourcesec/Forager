@@ -1,10 +1,10 @@
-__author__ = 'y0xda'
+__author__ = '0xnix'
 #
 # Purpose: Tools for gathering IP addresses, domain names, URL's, etc..
 #
 
 from time import sleep
-from os import chdir
+from os import chdir, path
 from xlrd import open_workbook, sheet
 import re
 import sys
@@ -26,7 +26,7 @@ def regex(ioc_type):
     if ioc_type == 'ip':
         pattern = re.compile("((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))")
     elif ioc_type == 'domain':
-        pattern = re.compile("([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.(?:com|net|ru|org|de|uk|jp|br|pl|info|fr|it|cn|in|su|pw|biz))")
+        pattern = re.compile("([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.(?:[a-z]{2,5}))")
     elif ioc_type == 'md5':
         pattern = re.compile("([A-Fa-f0-9]{32})")
     elif ioc_type == 'sha1':
@@ -36,7 +36,7 @@ def regex(ioc_type):
     elif ioc_type == 'email':
         pattern = re.compile("[a-zA-Z0-9_]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?!([a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?")
     elif ioc_type == 'URL':
-        pattern = re.compile("((?:http|ftp|https)\:\/\/(?:[\w+?\.\w+])+[a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]+)")
+        pattern = re.compile("((?:http|ftp|https)\:\/\/(?:[\w+?\.\w+])+[a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;]+)")
     else:
         print '[!] Invalid type specified.'
         sys.exit(0)
@@ -69,7 +69,12 @@ def add2file(filename, ioc_list):
     if len(ioc_list) == 0:
         pass
     else:
-        f = open(filename, 'w+')
+        patt = regex('ip')
+        test = patt.match(ioc_list[0])
+        if test is None:
+            f = open(filename, 'a+')
+        else:
+            f = open(filename, 'w+')
 
         for ioc in ioc_list:
             f.write(ioc + '\n')
