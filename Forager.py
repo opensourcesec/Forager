@@ -77,8 +77,7 @@ def main():
     group2.add_argument('-f', type=str, nargs='?', help="Receives a file of indicators to search through.")
     parser.add_argument("--extract", type=str, nargs=1, help="Extracts indicators from a given file")
     parser.add_argument("--cbgen", action="store_true", help="Generates alliance feeds for CarbonBlack. (Requires cbfeeds be present in bin dir)")
-    parser.add_argument('--srv', type=str, choices=['thr', 'daemon'], help="Runs feed server\n\
-    daemon - Daemonizes server process")
+    parser.add_argument('--srv', action="store_true", help="Runs feed server")
 
 
     args = parser.parse_args()
@@ -127,21 +126,13 @@ def main():
         CB_gen()
         if args.srv:
             http_thr = Thread(target=run_feed_server(), name='Feed_server')
-            if args.daemon:
-                http_thr.daemon = True
             http_thr.start()
         exit(0)
 
     elif args.srv:
-        if args.srv == 'thr':
-            thr = Thread(target=run_feed_server(), name='Feed_server')
-            thr.start()
-            thr.join()
-        elif args.srv == 'daemon':
-            thr = Thread(target=run_feed_server(), name='Feed_server')
-            if args.daemon:
-                thr.daemon = True
-            thr.start()
+        thr = Thread(target=run_feed_server(), name='Feed_server')
+        thr.start()
+        thr.join()
 
     else:
         parser.print_help()

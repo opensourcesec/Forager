@@ -4,11 +4,11 @@ __author__ = '0xnix'
 # Generates a dir for carbonblack feeds
 # Can also stand up a SimpleHTTPServer to host the feeds
 #
-from os import chdir, listdir, getcwd
+from os import chdir, listdir, mkdir, getcwd, path
 import SimpleHTTPServer
 import SocketServer
 from re import sub, search
-from json import dump
+from json import dump, loads
 from socket import gethostname
 
 from feeds import FeedModules
@@ -38,8 +38,8 @@ def run_feed_server():
     httpd = SocketServer.TCPServer(("", port), handler)
 
     try:
+        print '[+] CB Feed Server listening at http://%s:8000' % gethostname()
         httpd.serve_forever()
-        print "[+] Server listening on port ", port
     except:
         print "[-] Server exited"
 
@@ -49,16 +49,35 @@ def CB_gen():
     #cbfeed generator
     #
     feed_list = gen_feed_list()
-    feedinfo = listdir("bin/cbdata/feed_meta/")
-    #intel = 'intel/'
 
-    print '[*] Checking for feed metadata necessary to generate feeds...'
+    # Check for feed_meta dir
+    if path.isdir("bin/cbdata/feed_meta/"):
+        feedinfo = listdir("bin/cbdata/feed_meta/")
+    else:
+        try:
+            mkdir('bin/cbdata/feed_meta')
+            feedinfo = listdir("bin/cbdata/feed_meta/")
+        except:
+            print '[-] Error creating feed_meta directory, may need to adjust permissions'
+
+    #Check for JSON_feed dir
+    if path.isdir("bin/cbdata/json_feeds/"):
+        pass
+    else:
+        try:
+            mkdir('bin/cbdata/json_feeds')
+        except:
+            '[-] Error creating json_feeds directory, may need to adjust permissions'
+
+
+    print '[*] Checking for existing feed metadata necessary to generate feeds...'
     for f in feed_list:
         #check for feed_info files correlating to feed_list
         json_path = 'bin/cbdata/json_feeds/%s' % f
 
         if f in feedinfo:
             print f + ': yes'
+
         else:
             print f + ': no'
             print '[-] No metadata found for %s' % f
@@ -67,9 +86,24 @@ def CB_gen():
         #generate json_feed for feed module
         meta_file = 'bin/cbdata/feed_meta/%s' % f
         meta = open(meta_file, 'r').read()
+        try:
+            loads(meta)    # checks that meta file is valid JSON string
+        except:
+            print '[-] %s is not a valid meta file.\nWould you like to create a valid metadata file?' % meta_file
+            choice = raw_input('> (y/n) ')
+            if choice == 'y':
+                meta = get_feed_info(f)
+            elif choice == 'n':
+                '[*] Moving on then..'
+            else:
+                print '[!] Invalid choice. Better luck next time..'
+                exit(0)
+
+        #Creating JSON feed using scripts in cbfeeds/
         data = generate_feed.create_feed(meta)
         print data
 
+        #Saving the data to file in json_feeds/
         try:
             print '[*] Dumping data to %s' % json_path
             dump_data = open(json_path, 'w+').write(data)
@@ -84,8 +118,7 @@ def CB_gen():
             print '[*] Exiting..'
             exit(0)
         else:
-            'Peace out!'
-
+            'Nice try wise guy'
 
     return
 

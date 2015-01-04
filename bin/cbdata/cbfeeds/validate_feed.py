@@ -5,7 +5,7 @@ import json
 import urllib
 import socket
 import base64
-import cbfeeds
+from feed import *
 import optparse
 
 def build_cli_parser():
@@ -57,7 +57,7 @@ def validate_feed(feed, pedantic=False):
 
     # set up the cbfeed object
     #
-    feed = cbfeeds.CbFeed(feed["feedinfo"], feed["reports"])
+    feed = CbFeed(feed["feedinfo"], feed["reports"])
 
     # validate the feed
     # this validates that all required fields are present, and that
