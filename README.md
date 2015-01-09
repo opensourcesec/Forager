@@ -13,6 +13,17 @@ NOTE:
 The script creates a file for malicious IP addresses and a file for malicious domains for EACH feed in feeds.py, and then places them in a folder entitled "intel" 
 
 
+Requirements:
+-------
+* argparse
+* xlrd
+* pdfminer
+
+You can install all requirements with the included requirements.txt file
+```
+pip install -r requirements.txt
+```
+
 Feeds
 --------
 
