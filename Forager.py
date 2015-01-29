@@ -122,6 +122,18 @@ def main():
         extract(filename)
 
     elif args.cbgen:
+        try:
+            ioc = os.listdir('.')
+            for i in ioc:
+                if '_ioc' in i:
+                    raise StopIteration()
+            print '[-] Could not locate IOCs. Please gather some IOCs through --feeds update, or --extract for local files'
+            exit(0)
+        except StopIteration:
+            print '[+] IOCs found, continuing feed generation\n'
+            pass
+
+
         os.chdir('../')
         CB_gen()
         if args.srv:
