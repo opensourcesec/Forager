@@ -1,4 +1,4 @@
-__author__ = '0xnix'
+__author__ = 'byt3smith'
 
 #
 # Generates a dir for carbonblack feeds

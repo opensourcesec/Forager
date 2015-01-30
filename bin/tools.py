@@ -1,4 +1,4 @@
-__author__ = '0xnix'
+__author__ = 'byt3smith'
 #
 # Purpose: Tools for gathering IP addresses, domain names, URL's, etc..
 #

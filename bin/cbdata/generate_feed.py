@@ -1,3 +1,5 @@
+__author__ = 'CarbonBlack, byt3smith'
+
 # stdlib imports
 import re
 import sys

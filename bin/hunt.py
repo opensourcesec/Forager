@@ -1,4 +1,4 @@
-__author__ = '0xnix'
+__author__ = 'byt3smith'
 #
 # When called, will search through Intel directory for each
 # indicator in provided CSV or New-line formatted file.

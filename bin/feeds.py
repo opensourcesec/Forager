@@ -1,4 +1,4 @@
-__author__ = '0xnix'
+__author__ = 'byt3smith'
 #
 # Purpose: Import module for pulling and formatting
 #          all necessary intelligence feeds

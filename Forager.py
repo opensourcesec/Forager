@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-__author__ = '0xnix'
+__author__ = 'byt3smith'
 
 #
 # Main
@@ -129,7 +129,7 @@ def main():
             for i in ioc:
                 if '_ioc' in i:
                     raise StopIteration()
-            print '[-] Could not locate IOCs. Please gather some IOCs through --feeds update, or --extract for local files'
+            print '[-] No IOC files found.\r\n[*] Please gather IOCs through --feeds update, or --extract for local files'
             exit(0)
         except StopIteration:
             print '[+] IOCs found, continuing to CBGen\n'
