@@ -11,6 +11,8 @@ import os
 from sys import exit
 from threading import Thread, activeCount
 from time import sleep
+#pypi
+from colorama import Fore, Back, Style, init
 #local
 from bin.hunt import single_search, search_file
 from bin.feeds import FeedModules
@@ -54,6 +56,7 @@ def ensure_dir():
 
 
 def main():
+    init(autoreset=True) ## Initialize colorama
     banner = '''     ______  ______   ______   ______   ______   ______   ______
     /\  ___\/\  __ \ /\  == \ /\  __ \ /\  ___\ /\  ___\ /\  == \\
     \ \  __\\\\ \ \/\ \\\\ \  __< \ \  __ \\\\ \ \__ \\\\ \  __\\ \\ \\  __<
@@ -61,8 +64,7 @@ def main():
       \/_/    \/_____/ \/_/ /_/ \/_/\/_/ \/_____/ \/_____/ \/_/ /_/
     '''
 
-    print banner
-
+    print(Fore.CYAN + banner)
 
     feedmods = FeedModules()
     ensure_dir()
@@ -76,7 +78,7 @@ def main():
     group2.add_argument('-s', type=str, nargs='?', help="Accepts a single IP address")
     group2.add_argument('-f', type=str, nargs='?', help="Receives a file of indicators to search through.")
     parser.add_argument("--extract", type=str, nargs=1, help="Extracts indicators from a given file")
-    parser.add_argument("--cbgen", action="store_true", help="Generates alliance feeds for CarbonBlack. (Requires cbfeeds be present in bin dir)")
+    parser.add_argument("--cbgen", type=str, choices=['all', 'one'], help="Generates alliance feeds for CarbonBlack. (Requires cbfeeds be present in bin dir)")
     parser.add_argument('--srv', action="store_true", help="Runs feed server")
 
 
@@ -130,15 +132,16 @@ def main():
             print '[-] Could not locate IOCs. Please gather some IOCs through --feeds update, or --extract for local files'
             exit(0)
         except StopIteration:
-            print '[+] IOCs found, continuing feed generation\n'
+            print '[+] IOCs found, continuing to CBGen\n'
             pass
 
 
         os.chdir('../')
-        CB_gen()
-        if args.srv:
-            http_thr = Thread(target=run_feed_server(), name='Feed_server')
-            http_thr.start()
+        if args.cbgen == 'all':
+            CB_gen('a')
+        elif args.cbgen == 'one':
+            CB_gen('i')
+
         exit(0)
 
     elif args.srv:

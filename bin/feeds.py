@@ -59,7 +59,7 @@ class FeedModules():
 
 
     ## DShield High Pri suspicious domain list
-    def dshield_high_update(self):
+    def dshieldHigh_update(self):
         host_iocs = gather('http://www.dshield.org/feeds/suspiciousdomains_High.txt', hostname)
         add2file('dShield_high_ioc', host_iocs)
 
@@ -104,7 +104,7 @@ class FeedModules():
 
 
     ## NoThink Honeypots -- DNS Traffic
-    def nothink_dns_update(self):
+    def nothinkDns_update(self):
         iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', ip_addr)
         host_ioc = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', hostname)
 
@@ -113,7 +113,7 @@ class FeedModules():
 
 
     ## NoThink Honeypots -- HTTP Traffic
-    def nothink_http_update(self):
+    def nothinkHttp_update(self):
         iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', ip_addr)
         host_iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', hostname)
 
@@ -122,7 +122,7 @@ class FeedModules():
 
 
     ## NoThink Honeypots -- IRC Traffic
-    def nothink_irc_update(self):
+    def nothinkIrc_update(self):
         iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_irc.txt', ip_addr)
         add2file('nothink_irc_ioc', iocs)
     
@@ -137,19 +137,19 @@ class FeedModules():
 
 
     ## ET-Open BOTCC
-    def ET_Open_BotCC_update(self):
+    def ETOpenBotCC_update(self):
         iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-botcc.rules', ip_addr)
 
         add2file('ET_Open_BotCC_ioc', iocs)
 
     ## ET-Open Emerging CIarmy
-    def ET_Open_CIArmy_update(self):
+    def ETOpenCIArmy_update(self):
         iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-ciarmy.rules', ip_addr)
 
         add2file('ET_Open_CIArmy_ioc', iocs)
 
     ## ET-Open Compromised
-    def ET_Open_Compd_update(self):
+    def ETOpenCompd_update(self):
         iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-compromised-BLOCK.rules', ip_addr)
 
         add2file('ET_Open_Compd_ioc', iocs)

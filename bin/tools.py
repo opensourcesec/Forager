@@ -110,6 +110,7 @@ def extract(filename):
         f = ', '.join(asciilist)
     else:
         f = open(filename, "r").read()
+
     ip_patt = regex('ip')
     host_patt = regex('domain')
     md5_patt = regex('md5')
@@ -140,15 +141,19 @@ def extract(filename):
             md5_list.append(i)
 
     chdir('intel/')
+    base = path.basename(filename)
+    base_noext = path.splitext(base)[0]
 
-    add2file(filename + '_ip', ip_list)
-    print 'Wrote %d IP indicators to %s_ip' % (len(ip_list), filename)
-
-    add2file(filename + '_domain', domain_list)
-    print 'Wrote %d Domain indicators to %s_domain' % (len(domain_list), filename)
-
-    add2file(filename + '_md5', md5_list)
-    print 'Wrote %d MD5 hashes to %s_md5' % (len(md5_list), filename)
+    with open(base_noext + '_ioc', 'w+') as f:
+        for i in ip_list:
+            f.write(i + '\n')
+        print 'Wrote %d IP indicators to %s_ioc' % (len(ip_list), base_noext)
+        for d in domain_list:
+            f.write(d + '\n')
+        print 'Wrote %d Domain indicators to %s_ioc' % (len(domain_list), base_noext)
+        for m in md5_list:
+            f.write(m + '\n')
+        print 'Wrote %d MD5 hashes to %s_ioc' % (len(md5_list), base_noext)
 
 def update_progress(progress):
     barLength = 20  # Modify this to change the length of the progress bar
