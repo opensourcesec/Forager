@@ -226,7 +226,6 @@ def get_feed_info(f):
     else:
         '\n[-] Sorry, did not recognize that. You can add an icon later..'
 
-    print '\n[*] Feed Info:'
     feed_meta = ['name', 'display_name', 'provider_url', 'summary', 'tech_data', 'icon', 'ioc_file', 'feed_link', 'report_name']
     for i in feed_meta:
         feed_dict[i] = locals()[i]
