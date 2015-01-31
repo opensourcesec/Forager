@@ -45,7 +45,7 @@ def run_modules():
         update_progress(prog)
         tcount = activeCount()
         sleep(1)
-    print '[+] Feed collection finished!'
+    print(Fore.GREEN + '[+] Feed collection finished!')
 
 
 def ensure_dir():
@@ -91,11 +91,11 @@ def main():
             search_file(args.f)
 
     elif args.feeds == 'update':
-        print '[*] Updating all feeds'
+        print(Fore.YELLOW + '[*] Updating all feeds')
         run_modules()
 
     elif args.feeds == 'list':
-        print '[*] Please select feed to update:'
+        print(Fore.YELLOW + '[*] Please select feed to update:')
         feed_list = dir(FeedModules)
         newlist = []
         feedcount = 1
@@ -114,13 +114,13 @@ def main():
             methodToCall = getattr(feedmods, mod)  # saving the function with newlist argument as variable
             methodToCall()
         else:
-            print '[-] Invalid option. Exiting...'
+            print(Fore.RED + '[-] Invalid option. Exiting...')
             exit(0)
 
     elif args.extract:
         os.chdir('../')
         filename = args.extract[0]
-        print '[*] Extracting indicators from %s' % filename
+        print(Fore.YELLOW + '[*] Extracting indicators from %s' % filename)
         extract(filename)
 
     elif args.cbgen:
@@ -129,17 +129,18 @@ def main():
             for i in ioc:
                 if '_ioc' in i:
                     raise StopIteration()
-            print '[-] No IOC files found.\r\n[*] Please gather IOCs through --feeds update, or --extract for local files'
+            print(Fore.RED + '[-] No IOC files found.')
+            print (Fore.YELLOW + '\r\n[*] Please gather IOCs through --feeds update, or --extract for local files')
             exit(0)
         except StopIteration:
-            print '[+] IOCs found, continuing to CBGen\n'
+            print(Fore.GREEN + '[+] IOCs found, continuing to CBGen\n')
             pass
 
 
         os.chdir('../')
-        if args.cbgen == 'all':
+        if args.cbgen.lower() == 'all':
             CB_gen('a')
-        elif args.cbgen == 'one':
+        elif args.cbgen.lower() == 'one':
             CB_gen('i')
 
         exit(0)

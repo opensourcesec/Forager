@@ -61,7 +61,7 @@ class FeedModules():
     ## DShield High Pri suspicious domain list
     def dshieldHigh_update(self):
         host_iocs = gather('http://www.dshield.org/feeds/suspiciousdomains_High.txt', hostname)
-        add2file('dShield_high_ioc', host_iocs)
+        add2file('dShieldHigh_ioc', host_iocs)
 
 
     ## Spyeye Tracker
@@ -108,8 +108,8 @@ class FeedModules():
         iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', ip_addr)
         host_ioc = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', hostname)
 
-        add2file('nothink_dns_ioc', iocs)
-        add2file('noThink_dns_ioc', host_ioc)
+        add2file('nothinkDNS_ioc', iocs)
+        add2file('noThinkDNS_ioc', host_ioc)
 
 
     ## NoThink Honeypots -- HTTP Traffic
@@ -117,14 +117,14 @@ class FeedModules():
         iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', ip_addr)
         host_iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', hostname)
 
-        add2file('nothink_http_ioc', iocs)
-        add2file('nothink_http_ioc', host_iocs)
+        add2file('nothinkHTTP_ioc', iocs)
+        add2file('nothinkHTTP_ioc', host_iocs)
 
 
     ## NoThink Honeypots -- IRC Traffic
     def nothinkIrc_update(self):
         iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_irc.txt', ip_addr)
-        add2file('nothink_irc_ioc', iocs)
+        add2file('nothinkIRC_ioc', iocs)
     
 
     ## MalwaredRU Tracker
@@ -140,16 +140,16 @@ class FeedModules():
     def ETOpenBotCC_update(self):
         iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-botcc.rules', ip_addr)
 
-        add2file('ET_Open_BotCC_ioc', iocs)
+        add2file('ETOpenBotCC_ioc', iocs)
 
     ## ET-Open Emerging CIarmy
     def ETOpenCIArmy_update(self):
         iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-ciarmy.rules', ip_addr)
 
-        add2file('ET_Open_CIArmy_ioc', iocs)
+        add2file('ETOpenCIArmy_ioc', iocs)
 
     ## ET-Open Compromised
     def ETOpenCompd_update(self):
         iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-compromised-BLOCK.rules', ip_addr)
 
-        add2file('ET_Open_Compd_ioc', iocs)
+        add2file('ETOpenCompd_ioc', iocs)
