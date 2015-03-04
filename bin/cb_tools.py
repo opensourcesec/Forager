@@ -34,17 +34,18 @@ def gen_feed_list():
 
 def run_feed_server():
     #stands up the feed server, points to the CB/json_feeds dir
-    print getcwd()
     chdir('../bin/cbdata/json_feeds/')
     port = 8000
     handler = SimpleHTTPServer.SimpleHTTPRequestHandler
     httpd = SocketServer.TCPServer(("", port), handler)
 
     try:
-        print(Fore.YELLOW + '[+] CB Feed Server listening at http://%s:8000' % gethostname())
+        print('\n[' + Fore.GREEN + '+' + Fore.RESET + '] '),
+        print('Feed Server listening at http://%s:8000' % gethostname())
         httpd.serve_forever()
     except:
-        print "[-] Server exited"
+        print('\n[' + Fore.RED + '-' + Fore.RESET + '] '),
+        print("Server exited")
 
     return
 
@@ -92,10 +93,12 @@ def create_json_feed(meta, json_path):
 
         #Saving the data to file in json_feeds/
         try:
-            print '[*] Saving report to: %s' % json_path
+            print(Fore.YELLOW + '[*]' + Fore.RESET),
+            print 'Saving report to: %s' % json_path
             dump_data = open(json_path, 'w+').write(data)
         except:
-            print '[-] Could not dump report to %s' % json_path
+            print(Fore.RED + '[-]' + Fore.RESET),
+            print 'Could not dump report to %s' % json_path
             exit(0)
 
         return

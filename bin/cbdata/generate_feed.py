@@ -17,6 +17,13 @@ from cbfeeds.feed import CbReport
 from cbfeeds.feed import CbFeed
 from cbfeeds.feed import CbFeedInfo
 
+#pypi
+from colorama import Fore, Back, Style, init
+
+# Initialize colorama
+init(autoreset=True)
+
+
 def gen_report_id(iocs):
     """
     a report id should be unique
@@ -49,7 +56,8 @@ def build_reports(options):
     try:
         raw_iocs = open(iocs).readlines()
     except:
-        print '[-] Could not open %s' % iocs
+        print(Fore.RED + '\n[-]' + Fore.RESET),
+        print 'Could not open %s' % iocs
         exit(0)
 
     # iterate over each of the lines
@@ -119,9 +127,13 @@ def create_feed(options):
     # include in the feed information
     # 
     if feed_meta['icon']:
-        bytes = base64.b64encode(open(feed_meta['icon']).read())
-        feedinfo['icon'] = bytes 
-        
+        try:
+            bytes = base64.b64encode(open(feed_meta['icon']).read())
+            feedinfo['icon'] = bytes
+        except:
+            print(Fore.RED + '\n[-]' + Fore.RESET),
+            print 'Could not open %s. Make sure file still exists.\n' % feed_meta['icon']
+
     # build a CbFeedInfo instance
     # this does field validation
     #    
