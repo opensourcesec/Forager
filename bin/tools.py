@@ -11,7 +11,9 @@ import sys
 import urllib2
 import pdfConverter
 import unicodedata
+from colorama import Fore, Back, Style, init
 
+init(autoreset=True) ## Initialize colorama
 
 def connect(url):
     try:
@@ -83,7 +85,6 @@ def add2file(filename, ioc_list):
 
 def extract(filename):
     if filename[-3:] == 'pdf':
-        print '[*] Pulling indicators from PDF'
         f = pdfConverter.convert_pdf_to_txt(filename)
     elif filename[-3:] == 'xls' or filename[-4:] == 'xlsx':
         f = open_workbook(filename)
@@ -147,12 +148,15 @@ def extract(filename):
     with open(base_noext + '_ioc', 'w+') as f:
         for i in ip_list:
             f.write(i + '\n')
+        print(Fore.GREEN + '\n[+]' + Fore.RESET),
         print 'Wrote %d IP indicators to %s_ioc' % (len(ip_list), base_noext)
         for d in domain_list:
             f.write(d + '\n')
+        print(Fore.GREEN + '[+]' + Fore.RESET),
         print 'Wrote %d Domain indicators to %s_ioc' % (len(domain_list), base_noext)
         for m in md5_list:
             f.write(m + '\n')
+        print(Fore.GREEN + '[+]' + Fore.RESET),
         print 'Wrote %d MD5 hashes to %s_ioc' % (len(md5_list), base_noext)
 
 def update_progress(progress):

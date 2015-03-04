@@ -40,11 +40,11 @@ def run_feed_server():
     httpd = SocketServer.TCPServer(("", port), handler)
 
     try:
-        print('\n[' + Fore.GREEN + '+' + Fore.RESET + '] '),
+        print(Fore.GREEN + '\n[+]' + Fore.RESET),
         print('Feed Server listening at http://%s:8000' % gethostname())
         httpd.serve_forever()
     except:
-        print('\n[' + Fore.RED + '-' + Fore.RESET + '] '),
+        print(Fore.RED + '\n[-]' + Fore.RESET),
         print("Server exited")
 
     return
@@ -124,7 +124,8 @@ def generate_all(feed_list, feedinfo):
         try:
             loads(meta)    # checks that meta file is valid JSON string
         except:
-            print(Fore.YELLOW + '[*] %s is not valid JSON.\nWould you like to create a valid metadata file?' % meta_file)
+            print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+            print('%s is not valid JSON.\nWould you like to create a valid metadata file?' % meta_file)
             choice = raw_input('> (y/n) ')
             if choice == 'y':
                 meta = get_feed_info(f)
@@ -140,7 +141,7 @@ def generate_all(feed_list, feedinfo):
 
 
 def generate_one(feed_list, feedinfo):
-    print(Fore.YELLOW + '[*] soon to be individual feed gen function')
+    print(Fore.YELLOW + '[*] soon to be individual feed generation')
 
 
 
@@ -149,7 +150,7 @@ def get_feed_info(f):
     feed_dict = {}
     feedpath = 'bin/cbdata/feed_meta/%s' % f    # Path for new feed metadata
     meta_file = open(feedpath, 'w+')
-    name = f
+    name = ''.join(e for e in f if e.isalnum())
     host = gethostname()
     ioc_file = 'intel/%s_ioc' % f
     feed_link = 'http://%s/%s' % (host, ioc_file)
@@ -159,7 +160,8 @@ def get_feed_info(f):
     try:
         feedfile = open('bin/feeds.py', 'r').readlines()
     except:
-        print '[-] Could not open file'
+        print(Fore.RED + '\n[-]' + Fore.RESET),
+        print 'Could not open file'
         exit(0)
 
     count = 0
@@ -179,14 +181,16 @@ def get_feed_info(f):
             count+=1
 
     if stat == 0:
-        print(Fore.YELLOW + '\n[-] Could not locate provider URL in feed module.. please provide it below:')
+        print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+        print('Could not locate provider URL in feed module.. please provide it below:')
         provider_url = raw_input('> ')
     else:
         provider_url = result
 
     # Choose Display Name
     display_name = f
-    print(Fore.YELLOW + "\n[*] Is '%s' okay for Feed Display Name? ([RETURN], or specify new display name)" % display_name)
+    print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+    print("Is '%s' okay for Feed Display Name? ([RETURN], or specify new display name)" % display_name)
     choice = raw_input('\r> ')
     if len(choice) == 0:
         pass
@@ -195,7 +199,8 @@ def get_feed_info(f):
 
     # Choose Summary
     summary = f
-    print(Fore.YELLOW + "\n[*] Is '%s' okay for Feed Summary? ([RETURN], or specify summary)" % summary)
+    print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+    print("Is '%s' okay for Feed Summary? ([RETURN], or specify summary)" % summary)
     choice = raw_input('\r> ')
     if len(choice) == 0:
         pass
@@ -204,7 +209,8 @@ def get_feed_info(f):
 
     # Choose Tech Data
     tech_data = 'There are no requirements to share any data to receive this feed.'
-    print(Fore.YELLOW + "\n[*] Is '%s'\n okay for Tech Data? ([RETURN], or specify new display name)" % tech_data)
+    print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+    print("Is '%s'\n okay for Tech Data? ([RETURN], or specify new display name)" % tech_data)
     choice = raw_input('\r> ')
     if len(choice) == 0:
         pass
@@ -213,13 +219,16 @@ def get_feed_info(f):
 
     #Icon
     icon = ''
-    iconic = raw_input(Fore.YELLOW + '\n[*] Do you have an icon to upload? (Y/N)\n> ')
+    print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+    iconic = raw_input('Do you have an icon to upload? (Y/N)\n> ')
     if iconic.lower() == 'y':
-        icon = raw_input(Fore.YELLOW + '\n[*] Please provide the full path to the image here:\n> ')
+        print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+        icon = raw_input('Please provide the full path to the image here:\n> ')
     elif iconic.lower() == 'n':
         pass
     else:
-        print(Fore.YELLOW + '\n[*] Sorry, did not recognize that. You can add an icon later..')
+        print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+        print('[*] Sorry, did not recognize that. You can add an icon later..')
 
     feed_meta = ['name', 'display_name', 'provider_url', 'summary', 'tech_data', 'icon', 'ioc_file', 'feed_link', 'report_name']
     for i in feed_meta:

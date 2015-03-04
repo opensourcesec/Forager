@@ -52,7 +52,8 @@ def ensure_dir():
     folder = 'intel'
     if not os.path.exists(folder):
         os.makedirs(folder)
-        print '[+] Created new directory: intel'
+        print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+        print 'Created new directory: intel'
 
 
 def main():
