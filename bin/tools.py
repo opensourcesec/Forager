@@ -39,6 +39,8 @@ def regex(ioc_type):
         pattern = re.compile("[a-zA-Z0-9_]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?!([a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?")
     elif ioc_type == 'URL':
         pattern = re.compile("((?:http|ftp|https)\:\/\/(?:[\w+?\.\w+])+[a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;]+)")
+    elif ioc_type == 'yara':
+	pattern = re.compile("(rule\s[\w\W]+\{[\w\W\s]*\})")
     else:
         print '[!] Invalid type specified.'
         sys.exit(0)
