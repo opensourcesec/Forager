@@ -45,7 +45,7 @@ Extraction
 
 (Invoked with --extract)
 
-* Reads in a file and extracts IP address and domain indicators
+* Reads in a file and extracts IP addresss, domains, MD5/SHA1/SHA256 hashes, and YARA rules
 * Places the extracted indicators into the intel directory 
 * Currently supported filetypes:
   * TXT
