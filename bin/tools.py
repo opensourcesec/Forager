@@ -40,7 +40,7 @@ def regex(ioc_type):
     elif ioc_type == 'URL':
         pattern = re.compile("((?:http|ftp|https)\:\/\/(?:[\w+?\.\w+])+[a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;]+)")
     elif ioc_type == 'yara':
-	pattern = re.compile("(rule\s[\w\W]+\{[\w\W\s]*\})")
+        pattern = re.compile("(rule\s[\w\W]{,30}\{[\w\W\s]*\})")
     else:
         print '[!] Invalid type specified.'
         sys.exit(0)
@@ -117,10 +117,12 @@ def extract(filename):
     ip_patt = regex('ip')
     host_patt = regex('domain')
     md5_patt = regex('md5')
+    yara_patt = regex('yara')
 
     ip_list = []
     domain_list = []
     md5_list = []
+    yara_list = []
 
     ipaddr = ip_patt.findall(f)
     for i in ipaddr:
@@ -143,6 +145,14 @@ def extract(filename):
         else:
             md5_list.append(i)
 
+    yara_rules = yara_patt.findall(f)
+    for i in yara_rules:
+        if i in yara_list:
+            pass
+        else:
+            yara_list.append(i)
+
+
     chdir('intel/')
     base = path.basename(filename)
     base_noext = path.splitext(base)[0]
@@ -160,6 +170,10 @@ def extract(filename):
             f.write(m + '\n')
         print(Fore.GREEN + '[+]' + Fore.RESET),
         print 'Wrote %d MD5 hashes to %s_ioc' % (len(md5_list), base_noext)
+        for y in yara_list:
+            f.write(y + '\n')
+        print(Fore.GREEN + '[+]' + Fore.RESET),
+        print 'Wrote %d YARA rules to %s_ioc' % (len(yara_list), base_noext)
 
 def update_progress(progress):
     barLength = 20  # Modify this to change the length of the progress bar
