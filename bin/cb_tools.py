@@ -16,7 +16,7 @@ from colorama import Fore, Back, Style, init
 #local
 from feeds import FeedModules
 from tools import regex
-from cbdata import generate_feed
+from cb import generate_feed
 
 # Initialize colorama
 init(autoreset=True)
@@ -34,7 +34,7 @@ def gen_feed_list():
 
 def run_feed_server():
     #stands up the feed server, points to the CB/json_feeds dir
-    chdir('../bin/cbdata/json_feeds/')
+    chdir('../bin/cb/json_feeds/')
     port = 8000
     handler = SimpleHTTPServer.SimpleHTTPRequestHandler
     httpd = SocketServer.TCPServer(("", port), handler)
@@ -55,21 +55,21 @@ def CB_gen(run_mode):
     feed_list = gen_feed_list()
 
     # Check for feed_meta dir
-    if path.isdir("bin/cbdata/feed_meta/"):
-        feedinfo = listdir("bin/cbdata/feed_meta/")
+    if path.isdir("bin/cb/feed_meta/"):
+        feedinfo = listdir("bin/cb/feed_meta/")
     else:
         try:
-            mkdir('bin/cbdata/feed_meta')
-            feedinfo = listdir("bin/cbdata/feed_meta/")
+            mkdir('bin/cb/feed_meta')
+            feedinfo = listdir("bin/cb/feed_meta/")
         except:
             print(Fore.RED + '[-] Error creating feed_meta directory, may need to adjust permissions')
 
     #Check for JSON_feed dir
-    if path.isdir("bin/cbdata/json_feeds/"):
+    if path.isdir("bin/cb/json_feeds/"):
         pass
     else:
         try:
-            mkdir('bin/cbdata/json_feeds')
+            mkdir('bin/cb/json_feeds')
         except:
             print(Fore.RED + '[-] Error creating json_feeds directory, may need to adjust permissions')
 
@@ -109,7 +109,7 @@ def generate_all(feed_list, feedinfo):
     print(Fore.YELLOW + '[*] Checking for existing feed metadata necessary to generate feeds...\n')
     for f in feed_list:
         #check for feed_info files correlating to feed_list
-        json_path = 'bin/cbdata/json_feeds/%s' % f
+        json_path = 'bin/cb/json_feeds/%s' % f
 
         if f in feedinfo:
             print('\n' + f + ': ' + '[' + Fore.GREEN + ' yes ' + Fore.RESET + ']')
@@ -119,7 +119,7 @@ def generate_all(feed_list, feedinfo):
             meta = get_feed_info(f)
 
         #generate json_feed for feed module
-        meta_file = 'bin/cbdata/feed_meta/%s' % f
+        meta_file = 'bin/cb/feed_meta/%s' % f
         meta = open(meta_file, 'r').read()
         try:
             loads(meta)    # checks that meta file is valid JSON string
@@ -148,7 +148,7 @@ def generate_one(feed_list, feedinfo):
 def get_feed_info(f):
     #interactive prompt for gathering and storing feed info data
     feed_dict = {}
-    feedpath = 'bin/cbdata/feed_meta/%s' % f    # Path for new feed metadata
+    feedpath = 'bin/cb/feed_meta/%s' % f    # Path for new feed metadata
     meta_file = open(feedpath, 'w+')
     name = ''.join(e for e in f if e.isalnum())
     host = gethostname()

@@ -25,25 +25,23 @@ def connect(url):
 
 
 def regex(ioc_type):
-    if ioc_type == 'ip':
-        pattern = re.compile("((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))")
-    elif ioc_type == 'domain':
-        pattern = re.compile("([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.(?:[a-z]{2,5}))")
-    elif ioc_type == 'md5':
-        pattern = re.compile("([A-Fa-f0-9]{32})")
-    elif ioc_type == 'sha1':
-        pattern = re.compile("\b([A-Fa-f0-9]{40})\b")
-    elif ioc_type == 'sha256':
-        pattern = re.compile("\b([A-Fa-f0-9]{64})\b")
-    elif ioc_type == 'email':
-        pattern = re.compile("[a-zA-Z0-9_]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?!([a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?")
-    elif ioc_type == 'URL':
-        pattern = re.compile("((?:http|ftp|https)\:\/\/(?:[\w+?\.\w+])+[a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;]+)")
-    elif ioc_type == 'yara':
-        pattern = re.compile("(rule\s[\w\W]{,30}\{[\w\W\s]*\})")
-    else:
+    ioc_patts = {
+        "ip":"((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))",
+        "domain":"([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.(?:[a-z]{2,5}))",
+        "md5":"([A-Fa-f0-9]{32})",
+        "sha1":"([A-Fa-f0-9]{40})",
+        "sha256":"([A-Fa-f0-9]{64})",
+        "email":"[a-zA-Z0-9_]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?!([a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?",
+        "URL":"((?:http|ftp|https)\:\/\/(?:[\w+?\.\w+])+[a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;]+)",
+        "yara":"(rule\s[\w\W]{,30}\{[\w\W\s]*\})"
+    }
+
+    try:
+        pattern = re.compile(ioc_patts[ioc_type])
+    except KeyError:
         print '[!] Invalid type specified.'
         sys.exit(0)
+
     return pattern
 
 

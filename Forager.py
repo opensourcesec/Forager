@@ -12,7 +12,7 @@ from sys import exit
 from threading import Thread, activeCount
 from time import sleep
 #pypi
-from colorama import Fore, Back, Style, init
+from colorama import Fore, init
 #local
 from bin.hunt import single_search, search_file
 from bin.feeds import FeedModules
@@ -134,7 +134,7 @@ def main():
             print (Fore.YELLOW + '\r\n[*] Please gather IOCs through --feeds update, or --extract for local files')
             exit(0)
         except StopIteration:
-            print(Fore.GREEN + '[+] IOCs found, continuing to CBGen\n')
+            print(Fore.GREEN + '[+] IOCs found, continuing to feed generation\n')
             pass
 
 
