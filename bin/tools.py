@@ -28,9 +28,9 @@ def regex(ioc_type):
     ioc_patts = {
         "ip":"((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))",
         "domain":"([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.(?:[a-z]{2,5}))",
-        "md5":"([A-Fa-f0-9]{32})",
-        "sha1":"([A-Fa-f0-9]{40})",
-        "sha256":"([A-Fa-f0-9]{64})",
+        "md5":"\W([A-Fa-f0-9]{32})(?:\W|$)",
+        "sha1":"\W([A-Fa-f0-9]{40})(?:\W|$)",
+        "sha256":"\W([A-Fa-f0-9]{64})(?:\W|$)",
         "email":"[a-zA-Z0-9_]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?!([a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?",
         "URL":"((?:http|ftp|https)\:\/\/(?:[\w+?\.\w+])+[a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;]+)",
         "yara":"(rule\s[\w\W]{,30}\{[\w\W\s]*\})"
@@ -84,6 +84,8 @@ def add2file(filename, ioc_list):
 
 
 def extract(filename):
+
+    ### Determine filetype to define how IOCs are processed
     if filename[-3:] == 'pdf':
         f = pdfConverter.convert_pdf_to_txt(filename)
     elif filename[-3:] == 'xls' or filename[-4:] == 'xlsx':
@@ -112,16 +114,20 @@ def extract(filename):
     else:
         f = open(filename, "r").read()
 
+    ### Setup patterns for extraction
     ip_patt = regex('ip')
     host_patt = regex('domain')
     md5_patt = regex('md5')
+    sha1_patt = regex('sha1')
     yara_patt = regex('yara')
 
     ip_list = []
     domain_list = []
     md5_list = []
+    sha1_list = []
     yara_list = []
 
+    ### Iterate over lists of matched IOCs
     ipaddr = ip_patt.findall(f)
     for i in ipaddr:
         if i in ip_list:
@@ -150,31 +156,48 @@ def extract(filename):
         else:
             yara_list.append(i)
 
+    sha1_hash = sha1_patt.findall(f)
+    for i in sha1_hash:
+        if i in sha1_list:
+            pass
+        else:
+            sha1_list.append(i)
 
+    ### Create _ioc file
     chdir('intel/')
     base = path.basename(filename)
     base_noext = path.splitext(base)[0]
 
+    ### Write IOCs to files
     with open(base_noext + '_ioc', 'w+') as f:
         for i in ip_list:
             f.write(i + '\n')
         print(Fore.GREEN + '\n[+]' + Fore.RESET),
         print 'Wrote %d IP indicators to %s_ioc' % (len(ip_list), base_noext)
+
         for d in domain_list:
             f.write(d + '\n')
         print(Fore.GREEN + '[+]' + Fore.RESET),
         print 'Wrote %d Domain indicators to %s_ioc' % (len(domain_list), base_noext)
+
         for m in md5_list:
             f.write(m + '\n')
         print(Fore.GREEN + '[+]' + Fore.RESET),
         print 'Wrote %d MD5 hashes to %s_ioc' % (len(md5_list), base_noext)
+
         for y in yara_list:
             f.write(y + '\n')
         print(Fore.GREEN + '[+]' + Fore.RESET),
         print 'Wrote %d YARA rules to %s_ioc' % (len(yara_list), base_noext)
 
+        for y in sha1_list:
+            f.write(y + '\n')
+        print(Fore.GREEN + '[+]' + Fore.RESET),
+        print 'Wrote %d SHA1 hashes to %s_ioc' % (len(sha1_list), base_noext)
+
+
 def update_progress(progress):
-    barLength = 20  # Modify this to change the length of the progress bar
+    barLength = 20  # Modify this value to change the length of the progress bar
     status = ""
     if isinstance(progress, int):
         progress = float(progress)
