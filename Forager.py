@@ -121,7 +121,8 @@ def main():
     elif args.extract:
         os.chdir('../')
         filename = args.extract[0]
-        print(Fore.YELLOW + '[*] Extracting indicators from %s' % filename)
+        base = os.path.basename(filename)
+        print(Fore.YELLOW + '[*]' + Fore.RESET + ' Extracting indicators from %s' % base)
         extract(filename)
 
     elif args.cbgen:

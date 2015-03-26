@@ -26,8 +26,8 @@ def connect(url):
 
 def regex(ioc_type):
     ioc_patts = {
-        "ip":"((?:(?:[12]\d?\d?|[1-9]\d|[1-9])\.){3}(?:[12]\d?\d?|[\d+]{1,2}))",
-        "domain":"([a-z0-9]+(?:[\-|\.][a-z0-9]+)*\.(?:[a-z]{2,5}))",
+        "ip":"((?:(?:[12]\d?\d?|[1-9]\d|[1-9])(?:\[\.\]|\.)){3}(?:[12]\d?\d?|[\d+]{1,2}))",
+        "domain":"([a-z0-9]+(?:[\-|\.][a-z0-9]+)*(?:\[\.\]|\.)(?:com|net|ru|org|de|uk|jp|br|pl|info|fr|it|cn|in|su|pw|biz|co|eu|nl|kr|me))",
         "md5":"\W([A-Fa-f0-9]{32})(?:\W|$)",
         "sha1":"\W([A-Fa-f0-9]{40})(?:\W|$)",
         "sha256":"\W([A-Fa-f0-9]{64})(?:\W|$)",
@@ -38,7 +38,7 @@ def regex(ioc_type):
 
     try:
         pattern = re.compile(ioc_patts[ioc_type])
-    except KeyError:
+    except re.error:
         print '[!] Invalid type specified.'
         sys.exit(0)
 
@@ -121,6 +121,7 @@ def extract(filename):
     sha1_patt = regex('sha1')
     yara_patt = regex('yara')
 
+    ### Declare temp list vars to store IOCs
     ip_list = []
     domain_list = []
     md5_list = []
@@ -130,6 +131,9 @@ def extract(filename):
     ### Iterate over lists of matched IOCs
     ipaddr = ip_patt.findall(f)
     for i in ipaddr:
+        # Remove brackets if defanged
+        i = re.sub('\[\.\]', '.', i)
+
         if i in ip_list:
             pass
         else:
@@ -137,6 +141,9 @@ def extract(filename):
 
     domains = host_patt.findall(f)
     for i in domains:
+        # Remove brackets if defanged
+        i = re.sub('\[\.\]', '.', i)
+
         if i in domain_list:
             pass
         else:
@@ -168,32 +175,40 @@ def extract(filename):
     base = path.basename(filename)
     base_noext = path.splitext(base)[0]
 
+    banner = '''
++-------------------+
+|       RESULTS     |
++-------------------+'''
+    print banner
+
     ### Write IOCs to files
     with open(base_noext + '_ioc', 'w+') as f:
         for i in ip_list:
             f.write(i + '\n')
-        print(Fore.GREEN + '\n[+]' + Fore.RESET),
-        print 'Wrote %d IP indicators to %s_ioc' % (len(ip_list), base_noext)
+        f.write("\n")
+        print 'IPv4 Addresses [' + (Fore.GREEN + '%d' % (len(ip_list)) + Fore.RESET if len(ip_list) > 0 else Fore.RED + '%d' % (len(ip_list)) + Fore.RESET) + ']'
 
         for d in domain_list:
             f.write(d + '\n')
-        print(Fore.GREEN + '[+]' + Fore.RESET),
-        print 'Wrote %d Domain indicators to %s_ioc' % (len(domain_list), base_noext)
+        f.write("\n")
+        print 'Domain Names [' + (Fore.GREEN + '%d' % (len(domain_list)) + Fore.RESET if len(domain_list) > 0 else Fore.RED + '%d' % (len(domain_list)) + Fore.RESET) + ']'
 
         for m in md5_list:
             f.write(m + '\n')
-        print(Fore.GREEN + '[+]' + Fore.RESET),
-        print 'Wrote %d MD5 hashes to %s_ioc' % (len(md5_list), base_noext)
+        f.write("\n")
+        print 'MD5 Hashes [' + (Fore.GREEN + '%d' % (len(md5_list)) + Fore.RESET if len(md5_list) > 0 else Fore.RED + '%d' % (len(md5_list)) + Fore.RESET) + ']'
 
         for y in yara_list:
             f.write(y + '\n')
-        print(Fore.GREEN + '[+]' + Fore.RESET),
-        print 'Wrote %d YARA rules to %s_ioc' % (len(yara_list), base_noext)
+        f.write("\n")
+        print 'YARA Rules [' + (Fore.GREEN + '%d' % (len(yara_list)) + Fore.RESET if len(yara_list) > 0 else Fore.RED + '%d' % (len(yara_list)) + Fore.RESET) + ']'
 
         for y in sha1_list:
             f.write(y + '\n')
-        print(Fore.GREEN + '[+]' + Fore.RESET),
-        print 'Wrote %d SHA1 hashes to %s_ioc' % (len(sha1_list), base_noext)
+        f.write("\n")
+        print 'SHA1 Hashes [' + (Fore.GREEN + '%d' % (len(sha1_list)) + Fore.RESET if len(sha1_list) > 0 else Fore.RED + '%d' % (len(sha1_list)) + Fore.RESET) + ']'
+
+    print Fore.GREEN + "\n[+]" + Fore.RESET + " IOCs written to %s" % base_noext + '_ioc!'
 
 
 def update_progress(progress):
