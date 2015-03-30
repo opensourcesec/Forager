@@ -221,10 +221,10 @@ def update_progress(progress):
         status = "error: progress var must be float\r\n"
     if progress < 0:
         progress = 0
-        status = "Halt!\r\n"
+        status = Fore.RED + "Halt!\r\n"
     if progress >= .999:
         progress = 1
-        status = "Complete!\r\n"
+        status = Fore.GREEN + "Complete!\r\n"
     block = int(round(barLength*progress))
     text = "\r[*] Progress: [{0}] {1}% {2}".format("#"*block + "-"*(barLength-block), progress*100, status)
     sys.stdout.write(text)

@@ -45,7 +45,7 @@ def run_modules():
         update_progress(prog)
         tcount = activeCount()
         sleep(1)
-    print(Fore.GREEN + '[+] Feed collection finished!')
+    print(Fore.GREEN + '\n[+]' + Fore.RESET + ' Feed collection finished!')
 
 
 def ensure_dir():
@@ -92,11 +92,11 @@ def main():
             search_file(args.f)
 
     elif args.feeds == 'update':
-        print(Fore.YELLOW + '[*] Updating all feeds')
+        print(Fore.YELLOW + '\n[*]' + Fore.RESET + ' Updating all feeds')
         run_modules()
 
     elif args.feeds == 'list':
-        print(Fore.YELLOW + '[*] Please select feed to update:')
+        print(Fore.YELLOW + '[*]' + Fore.RESET + ' Please select feed to update:')
         feed_list = dir(FeedModules)
         newlist = []
         feedcount = 1
@@ -115,7 +115,7 @@ def main():
             methodToCall = getattr(feedmods, mod)  # saving the function with newlist argument as variable
             methodToCall()
         else:
-            print(Fore.RED + '[-] Invalid option. Exiting...')
+            print(Fore.RED + '[-]' + Fore.RESET + ' Invalid option. Exiting...')
             exit(0)
 
     elif args.extract:
