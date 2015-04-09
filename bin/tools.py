@@ -27,7 +27,7 @@ def connect(url):
 def regex(ioc_type):
     ioc_patts = {
         "ip":"((?:(?:[12]\d?\d?|[1-9]\d|[1-9])(?:\[\.\]|\.)){3}(?:[12]\d?\d?|[\d+]{1,2}))",
-        "domain":"([a-z0-9]+(?:[\-|\.][a-z0-9]+)*(?:\[\.\]|\.)(?:com|net|ru|org|de|uk|jp|br|pl|info|fr|it|cn|in|su|pw|biz|co|eu|nl|kr|me))",
+        "domain":"([A-Za-z0-9]+(?:[\-|\.][A-Za-z0-9]+)*(?:\[\.\]|\.)(?:com|net|edu|ru|org|de|uk|jp|br|pl|info|fr|it|cn|in|su|pw|biz|co|eu|nl|kr|me))",
         "md5":"\W([A-Fa-f0-9]{32})(?:\W|$)",
         "sha1":"\W([A-Fa-f0-9]{40})(?:\W|$)",
         "sha256":"\W([A-Fa-f0-9]{64})(?:\W|$)",
