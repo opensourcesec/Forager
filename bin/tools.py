@@ -119,6 +119,7 @@ def extract(filename):
     host_patt = regex('domain')
     md5_patt = regex('md5')
     sha1_patt = regex('sha1')
+    sha256_patt = regex('sha256')
     yara_patt = regex('yara')
 
     ### Declare temp list vars to store IOCs
@@ -126,6 +127,7 @@ def extract(filename):
     domain_list = []
     md5_list = []
     sha1_list = []
+    sha256_list = []
     yara_list = []
 
     ### Iterate over lists of matched IOCs
@@ -156,6 +158,20 @@ def extract(filename):
         else:
             md5_list.append(i)
 
+    sha1_hash = sha1_patt.findall(f)
+    for i in sha1_hash:
+        if i in sha1_list:
+            pass
+        else:
+            sha1_list.append(i)
+
+    sha256_hash = sha256_patt.findall(f)
+    for i in sha256_hash:
+        if i in sha1_list:
+            pass
+        else:
+            sha256_list.append(i)
+
     yara_rules = yara_patt.findall(f)
     for i in yara_rules:
         if i in yara_list:
@@ -163,12 +179,6 @@ def extract(filename):
         else:
             yara_list.append(i)
 
-    sha1_hash = sha1_patt.findall(f)
-    for i in sha1_hash:
-        if i in sha1_list:
-            pass
-        else:
-            sha1_list.append(i)
 
     ### Create _ioc file
     chdir('intel/')
@@ -203,10 +213,15 @@ def extract(filename):
         f.write("\n")
         print 'YARA Rules [' + (Fore.GREEN + '%d' % (len(yara_list)) + Fore.RESET if len(yara_list) > 0 else Fore.RED + '%d' % (len(yara_list)) + Fore.RESET) + ']'
 
-        for y in sha1_list:
-            f.write(y + '\n')
+        for s1 in sha1_list:
+            f.write(s1 + '\n')
         f.write("\n")
         print 'SHA1 Hashes [' + (Fore.GREEN + '%d' % (len(sha1_list)) + Fore.RESET if len(sha1_list) > 0 else Fore.RED + '%d' % (len(sha1_list)) + Fore.RESET) + ']'
+
+        for s2 in sha256_list:
+            f.write(s2 + '\n')
+        f.write("\n")
+        print 'SHA256 Hashes [' + (Fore.GREEN + '%d' % (len(sha256_list)) + Fore.RESET if len(sha256_list) > 0 else Fore.RED + '%d' % (len(sha256_list)) + Fore.RESET) + ']'
 
     print Fore.GREEN + "\n[+]" + Fore.RESET + " IOCs written to %s" % base_noext + '_ioc!'
 
@@ -229,3 +244,4 @@ def update_progress(progress):
     text = "\r[*] Progress: [{0}] {1}% {2}".format("#"*block + "-"*(barLength-block), progress*100, status)
     sys.stdout.write(text)
     sys.stdout.flush()
+
