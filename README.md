@@ -9,15 +9,12 @@ Features:
 * Search through the indicator set by single IP or with an IOC file
 * Generate JSON feeds for consumption by CarbonBlack
 
-NOTE:
-The script creates a file for malicious IP addresses and a file for malicious domains for EACH feed in feeds.py, and then places them in a folder entitled "intel" 
-
-
 Requirements:
 -------
 * argparse
 * xlrd
 * pdfminer
+* colorama (for pretty colored output)
 
 You can install all requirements with the included requirements.txt file
 ```
