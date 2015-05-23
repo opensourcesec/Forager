@@ -8,6 +8,7 @@ Features:
 * Extract domain and IPv4 indicators from Whitepapers
 * Search through the indicator set by single IP or with an IOC file
 * Generate JSON feeds for consumption by CarbonBlack
+* Serves up a Simple HTTP JSON feed server for CarbonBlack
 
 Requirements:
 -------
