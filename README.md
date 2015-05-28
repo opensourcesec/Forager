@@ -1,12 +1,12 @@
 Forager  ![alt tag](img/Forager.png)
 =======
 
-Threat Intelligence hunter-gatherer CLI tool. 
+Threat Intelligence hunter-gatherer CLI tool.
 Features:
 
-* Fetch domain and IPv4 indicators which can then be taken from the new-line formatted files and input into security devices or other tools as watchlists.
-* Extract domain and IPv4 indicators from Whitepapers
-* Search through the indicator set by single IP or with an IOC file
+* Fetch intel from URL's using modular feed functions
+* Extract domain, md5, sha1, sha256, IPv4, and YARA indicators
+* Search through the current intel set by single IP or with an IOC file
 * Generate JSON feeds for consumption by CarbonBlack
 * Serves up a Simple HTTP JSON feed server for CarbonBlack
 
@@ -27,10 +27,10 @@ Feeds
 
 (Invoked with --feeds)
 
-* 'list' -- Lists all feeds and allows user to choose a single feed to update. 
+* 'list' -- Lists all feeds and allows user to choose a single feed to update.
 * 'update' -- Updates all feed modules listed in Forager
 
-Hunting 
+Hunting
 ---------
 
 (Invoked with --hunt)
@@ -44,7 +44,7 @@ Extraction
 (Invoked with --extract)
 
 * Reads in a file and extracts IP addresss, domains, MD5/SHA1/SHA256 hashes, and YARA rules
-* Places the extracted indicators into the intel directory 
+* Places the extracted indicators into the intel directory
 * Currently supported filetypes:
   * TXT
   * PDF
