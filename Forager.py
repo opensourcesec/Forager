@@ -6,7 +6,7 @@ __author__ = 'byt3smith'
 # Check for Python3
 import sys
 if sys.version_info[0] != 3:
-    print("[-] Forager requires Python 3")
+    print(Fore.RED + "[-] " + Fore.RESET + " Forager requires Python 3")
     exit()
 
 #stdlib
@@ -30,13 +30,13 @@ def run_modules():
     for i in dir(x):
         if i.endswith('_update'):
             mod = getattr(x, i)
-            threads.append(Thread(target=mod, name='%s' % i))
+            threads.append(Thread(target=mod, name='{}'.format(i)))
         else:
             pass
 
     for t in threads:
         t.start()
-        print('Initialized: %s' % t.name)
+        print('Initialized: {}'.format(t.name))
 
     sleep(3)
     stat = 0.0
@@ -56,7 +56,7 @@ def ensure_dir():
     folder = 'data/intel'
     if not os.path.exists(folder):
         os.makedirs(folder)
-        print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+        print((Fore.YELLOW + '\n[*]' + Fore.RESET))
         print('Created new directory: intel')
 
 
@@ -113,7 +113,7 @@ def main():
                 pass
 
         print('\n')
-        choice = input('Select feed by numerical ID (1-%d)\n> ' % (len(newlist)))
+        choice = input('Select feed by numerical ID (1-{})\n> '.format(len(newlist)))
         if int(choice) in range(1, len(newlist) + 1):  # condition to check if proper feed was selected.
             mod = newlist[int(choice) - 1]   # Using choice number to locate item in the feed list
             methodToCall = getattr(feedmods, mod)  # saving the function with newlist argument as variable
@@ -126,7 +126,7 @@ def main():
         os.chdir('../')
         filename = args.extract[0]
         base = os.path.basename(filename)
-        print((Fore.YELLOW + '[*]' + Fore.RESET + ' Extracting indicators from %s' % base))
+        print((Fore.YELLOW + '[*]' + Fore.RESET + ' Extracting indicators from {}'.format(base)))
         extract(filename)
 
     elif args.cbgen:
