@@ -1,0 +1,9 @@
+language: python
+python:
+    - 3.4
+# command to install dependencies
+install:
+  - pip3 install -r requirements.txt
+
+script:
+    - echo "exit" | python Forager.py

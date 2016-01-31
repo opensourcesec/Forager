@@ -12,7 +12,6 @@ from time import sleep
 
 def search_file(ioc):
     os.chdir('../')
-    print("CUrrent Dir: {}".format(os.getcwd()))
     patt = tools.regex('ip')
 
     if ioc[-3:] == 'csv':
@@ -32,7 +31,7 @@ def search_file(ioc):
             ioc_list.append(match)
 
     sleep(2)
-    print("CUrrent Dir: {}".format(os.getcwd()))
+
     os.chdir('data/intel/')
     dir = os.listdir('.')
 

@@ -20,7 +20,7 @@ Requirements:
 
 You can install all requirements with the included requirements.txt file
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Feeds
