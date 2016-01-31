@@ -6,7 +6,7 @@ __author__ = 'byt3smith'
 # Check for Python3
 import sys
 if sys.version_info[0] != 3:
-    print(Fore.RED + "[-] " + Fore.RESET + " Forager requires Python 3")
+    print("[-] Forager requires Python 3")
     exit()
 
 #stdlib
