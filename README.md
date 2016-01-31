@@ -12,9 +12,10 @@ Features:
 
 Requirements:
 -------
+*Requires Python 3!*
 * argparse
 * xlrd
-* pdfminer
+* pdfminer3k
 * colorama (for pretty colored output)
 
 You can install all requirements with the included requirements.txt file
