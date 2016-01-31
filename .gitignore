@@ -2,7 +2,7 @@
 
 # C extensions
 *.so
-
+__pycache__/
 # Packages
 *.egg
 *.egg-info
@@ -36,3 +36,12 @@ nosetests.xml
 
 # IDE exclusions
 .idea
+
+#
+##### Forager Specific ######
+#
+*.bak
+intel/
+matches.txt
+feed_meta/
+json_feeds/

@@ -6,17 +6,17 @@ __author__ = 'byt3smith'
 #
 #stdlib
 from os import chdir, listdir, mkdir, getcwd, path
-import SimpleHTTPServer
-import SocketServer
+import http.server
+import socketserver
 from re import sub, search
 from json import dump, loads
 from socket import gethostname
 #pypi
 from colorama import Fore, Back, Style, init
 #local
-from feeds import FeedModules
-from tools import regex
-from cb import generate_feed
+from .feeds import FeedModules
+from .tools import regex
+from .cb import generate_feed
 
 # Initialize colorama
 init(autoreset=True)
@@ -34,44 +34,56 @@ def gen_feed_list():
 
 def run_feed_server():
     #stands up the feed server, points to the CB/json_feeds dir
-    chdir('../bin/cb/json_feeds/')
+    chdir('data/json_feeds/')
     port = 8000
-    handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-    httpd = SocketServer.TCPServer(("", port), handler)
+    handler = http.server.SimpleHTTPRequestHandler
+    httpd = socketserver.TCPServer(("", port), handler)
 
     try:
-        print(Fore.GREEN + '\n[+]' + Fore.RESET),
-        print('Feed Server listening at http://%s:8000' % gethostname())
+        print((Fore.GREEN + '\n[+]' + Fore.RESET), end=' ')
+        print(('Feed Server listening at http://%s:8000' % gethostname()))
         httpd.serve_forever()
     except:
-        print(Fore.RED + '\n[-]' + Fore.RESET),
+        print((Fore.RED + '\n[-]' + Fore.RESET), end=' ')
         print("Server exited")
 
     return
 
-def CB_gen(run_mode):
+def cb_gen(run_mode):
     #cbfeed generator
     #
     feed_list = gen_feed_list()
-
-    # Check for feed_meta dir
-    if path.isdir("bin/cb/feed_meta/"):
-        feedinfo = listdir("bin/cb/feed_meta/")
-    else:
-        try:
-            mkdir('bin/cb/feed_meta')
-            feedinfo = listdir("bin/cb/feed_meta/")
-        except:
-            print(Fore.RED + '[-] Error creating feed_meta directory, may need to adjust permissions')
-
-    #Check for JSON_feed dir
-    if path.isdir("bin/cb/json_feeds/"):
+    print(getcwd())
+    # Check for data/cb/ dir
+    if path.isdir("cb/"):
         pass
     else:
         try:
-            mkdir('bin/cb/json_feeds')
+            mkdir("cb/")
         except:
-            print(Fore.RED + '[-] Error creating json_feeds directory, may need to adjust permissions')
+            print((Fore.RED + '[-] ' + Fore.RESET + 'Could not create data/cb/ directory'))
+            exit()
+
+    # Check for feed_meta dir
+    if path.isdir("cb/feed_meta/"):
+        feedinfo = listdir("cb/feed_meta/")
+    else:
+        try:
+            mkdir('cb/feed_meta')
+            feedinfo = listdir("cb/feed_meta/")
+        except:
+            print((Fore.RED + '[-] ' + Fore.RESET + 'Error creating feed_meta directory, may need to adjust permissions'))
+            exit()
+
+    #Check for JSON_feed dir
+    if path.isdir("cb/json_feeds/"):
+        pass
+    else:
+        try:
+            mkdir('cb/json_feeds')
+        except:
+            print((Fore.RED + '[-] ' + Fore.RESET + ' Error creating json_feeds directory, may need to adjust permissions'))
+            exit()
 
     ## Run function based on CLI args
     if run_mode == 'a':
@@ -93,12 +105,12 @@ def create_json_feed(meta, json_path):
 
         #Saving the data to file in json_feeds/
         try:
-            print(Fore.YELLOW + '[*]' + Fore.RESET),
-            print 'Saving report to: %s' % json_path
+            print((Fore.YELLOW + '[*]' + Fore.RESET), end=' ')
+            print('Saving report to: %s' % json_path)
             dump_data = open(json_path, 'w+').write(data)
         except:
-            print(Fore.RED + '[-]' + Fore.RESET),
-            print 'Could not dump report to %s' % json_path
+            print((Fore.RED + '[-]' + Fore.RESET), end=' ')
+            print('Could not dump report to %s' % json_path)
             exit(0)
 
         return
@@ -106,49 +118,49 @@ def create_json_feed(meta, json_path):
 
 def generate_all(feed_list, feedinfo):
     # Check for feed metadata
-    print(Fore.YELLOW + '[*] Checking for existing feed metadata necessary to generate feeds...\n')
+    print((Fore.YELLOW + '[*] ' + Fore.RESET + 'Checking for existing feed metadata necessary to generate feeds...\n'))
     for f in feed_list:
         #check for feed_info files correlating to feed_list
-        json_path = 'bin/cb/json_feeds/%s' % f
+        json_path = 'cb/json_feeds/%s' % f
 
         if f in feedinfo:
-            print('\n' + f + ': ' + '[' + Fore.GREEN + ' yes ' + Fore.RESET + ']')
+            print(('\n' + f + ': ' + '[' + Fore.GREEN + ' yes ' + Fore.RESET + ']'))
 
         else:
-            print('\n' + f + ': ' + '[' + Fore.RED + ' no ' + Fore.RESET + ']')
+            print(('\n' + f + ': ' + '[' + Fore.RED + ' no ' + Fore.RESET + ']'))
             meta = get_feed_info(f)
 
         #generate json_feed for feed module
-        meta_file = 'bin/cb/feed_meta/%s' % f
+        meta_file = 'cb/feed_meta/%s' % f
         meta = open(meta_file, 'r').read()
         try:
             loads(meta)    # checks that meta file is valid JSON string
         except:
-            print(Fore.YELLOW + '\n[*]' + Fore.RESET),
-            print('%s is not valid JSON.\nWould you like to create a valid metadata file?' % meta_file)
-            choice = raw_input('> (y/n) ')
+            print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+            print(('%s is not valid JSON.\nWould you like to create a valid metadata file?' % meta_file))
+            choice = input('> (y/n) ')
             if choice == 'y':
                 meta = get_feed_info(f)
                 return
             elif choice == 'n':
-                print(Fore.YELLOW + '[*] Moving on..')
+                print((Fore.YELLOW + '[*] Moving on..'))
                 return
             else:
-                print(Fore.RED + '[!] Invalid choice. Better luck next time..')
+                print((Fore.RED + '[!] Invalid choice. Better luck next time..'))
                 exit(0)
 
         create_json_feed(meta, json_path)
 
 
 def generate_one(feed_list, feedinfo):
-    print(Fore.YELLOW + '[*] soon to be individual feed generation')
+    print((Fore.YELLOW + '[*] ' + Fore.RESET + ' soon to be individual feed generation'))
 
 
 
 def get_feed_info(f):
     #interactive prompt for gathering and storing feed info data
     feed_dict = {}
-    feedpath = 'bin/cb/feed_meta/%s' % f    # Path for new feed metadata
+    feedpath = 'cb/feed_meta/%s' % f    # Path for new feed metadata
     meta_file = open(feedpath, 'w+')
     name = ''.join(e for e in f if e.isalnum())
     host = gethostname()
@@ -158,10 +170,10 @@ def get_feed_info(f):
 
     # Find URL in feeds.py
     try:
-        feedfile = open('bin/feeds.py', 'r').readlines()
+        feedfile = open('../src/feeds.py', 'r').readlines()
     except:
-        print(Fore.RED + '\n[-]' + Fore.RESET),
-        print 'Could not open file'
+        print((Fore.RED + '\n[-]' + Fore.RESET), end=' ')
+        print('Could not open file')
         exit(0)
 
     count = 0
@@ -171,7 +183,7 @@ def get_feed_info(f):
         fn = f.lower()
         if fn in line:
             loc = feedfile[count+1]
-            searches = search(regex('URL'), loc)
+            searches = search(regex('URL'), loc.encode('utf-8'))
             if searches == None:
                 pass
             else:
@@ -181,17 +193,17 @@ def get_feed_info(f):
             count+=1
 
     if stat == 0:
-        print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+        print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
         print('Could not locate provider URL in feed module.. please provide it below:')
-        provider_url = raw_input('> ')
+        provider_url = input('> ')
     else:
         provider_url = result
 
     # Choose Display Name
     display_name = f
-    print(Fore.YELLOW + '\n[*]' + Fore.RESET),
-    print("Is '%s' okay for Feed Display Name? ([RETURN], or specify new display name)" % display_name)
-    choice = raw_input('\r> ')
+    print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+    print(("Is '%s' okay for Feed Display Name? ([RETURN], or specify new display name)" % display_name))
+    choice = input('\r> ')
     if len(choice) == 0:
         pass
     else:
@@ -199,9 +211,9 @@ def get_feed_info(f):
 
     # Choose Summary
     summary = f
-    print(Fore.YELLOW + '\n[*]' + Fore.RESET),
-    print("Is '%s' okay for Feed Summary? ([RETURN], or specify summary)" % summary)
-    choice = raw_input('\r> ')
+    print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+    print(("Is '%s' okay for Feed Summary? ([RETURN], or specify summary)" % summary))
+    choice = input('\r> ')
     if len(choice) == 0:
         pass
     else:
@@ -209,36 +221,36 @@ def get_feed_info(f):
 
     # Choose Tech Data
     tech_data = 'There are no requirements to share any data to receive this feed.'
-    print(Fore.YELLOW + '\n[*]' + Fore.RESET),
-    print("Is '%s'\n okay for Tech Data? ([RETURN], or specify new display name)" % tech_data)
-    choice = raw_input('\r> ')
+    print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+    print(("Is '%s'\n okay for Tech Data? ([RETURN], or specify new display name)" % tech_data))
+    choice = input('\r> ')
     if len(choice) == 0:
         pass
     else:
         tech_data = choice
 
-    #Icon
+    # Icon
     icon = ''
-    print(Fore.YELLOW + '\n[*]' + Fore.RESET),
-    iconic = raw_input('Do you have an icon to upload? (Y/N)\n> ')
+    print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+    iconic = input('Do you have an icon to upload? (Y/N)\n> ')
     if iconic.lower() == 'y':
-        print(Fore.YELLOW + '\n[*]' + Fore.RESET),
-        icon = raw_input('Please provide the full path to the image here:\n> ')
+        print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+        icon = input('Please provide the full path to the image here:\n> ')
     elif iconic.lower() == 'n':
         pass
     else:
-        print(Fore.YELLOW + '\n[*]' + Fore.RESET),
+        print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
         print('[*] Sorry, did not recognize that. You can add an icon later..')
 
+    # Parsing values into the feed dictionary
     feed_meta = ['name', 'display_name', 'provider_url', 'summary', 'tech_data', 'icon', 'ioc_file', 'feed_link', 'report_name']
     for i in feed_meta:
-        feed_dict[i] = locals()[i]
+        feed_dict[i] = str(locals()[i])
 
     try:
         json_data = dump(feed_dict, meta_file)
-        print(Fore.GREEN + '\n[+] Successfully wrote metadata to %s' % feedpath)
+        print((Fore.GREEN + '\n[+] Successfully wrote metadata to %s' % feedpath))
         meta_file.close()
         return json_data
     except:
-        print(Fore.RED + '\n[-] Could not write JSON stream to file')
-
+        print((Fore.RED + '\n[-] Could not write JSON stream to file'))

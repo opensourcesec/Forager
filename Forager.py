@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 __author__ = 'byt3smith'
-
 #
 # Main
-#
+
+# Check for Python3
+import sys
+if sys.version_info[0] != 3:
+    print("[-] Forager requires Python 3")
+    exit()
 
 #stdlib
 import argparse
@@ -14,10 +18,10 @@ from time import sleep
 #pypi
 from colorama import Fore, init
 #local
-from bin.hunt import single_search, search_file
-from bin.feeds import FeedModules
-from bin.tools import extract, update_progress
-from bin.cb_tools import CB_gen, run_feed_server
+from src.hunt import single_search, search_file
+from src.feeds import FeedModules
+from src.tools import extract, update_progress
+from src.cb_tools import cb_gen, run_feed_server
 
 
 def run_modules():
@@ -32,7 +36,7 @@ def run_modules():
 
     for t in threads:
         t.start()
-        print 'Initialized: %s' % t.name
+        print('Initialized: %s' % t.name)
 
     sleep(3)
     stat = 0.0
@@ -45,15 +49,15 @@ def run_modules():
         update_progress(prog)
         tcount = activeCount()
         sleep(1)
-    print(Fore.GREEN + '\n[+]' + Fore.RESET + ' Feed collection finished!')
+    print((Fore.GREEN + '\n[+]' + Fore.RESET + ' Feed collection finished!'))
 
 
 def ensure_dir():
-    folder = 'intel'
+    folder = 'data/intel'
     if not os.path.exists(folder):
         os.makedirs(folder)
-        print(Fore.YELLOW + '\n[*]' + Fore.RESET),
-        print 'Created new directory: intel'
+        print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+        print('Created new directory: intel')
 
 
 def main():
@@ -65,11 +69,11 @@ def main():
       \/_/    \/_____/ \/_/ /_/ \/_/\/_/ \/_____/ \/_____/ \/_/ /_/
     '''
 
-    print(Fore.CYAN + banner)
+    print((Fore.CYAN + banner))
 
     feedmods = FeedModules()
     ensure_dir()
-    os.chdir('intel')
+    os.chdir('data/intel/')
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("--feeds", type=str, choices=['list', 'update'], help="Manipulates intelligence feeds\n\
     List - Show list of current feeds to update individually\n\
@@ -92,37 +96,37 @@ def main():
             search_file(args.f)
 
     elif args.feeds == 'update':
-        print(Fore.YELLOW + '\n[*]' + Fore.RESET + ' Updating all feeds')
+        print((Fore.YELLOW + '\n[*]' + Fore.RESET + ' Updating all feeds'))
         run_modules()
 
     elif args.feeds == 'list':
-        print(Fore.YELLOW + '[*]' + Fore.RESET + ' Please select feed to update:')
+        print((Fore.YELLOW + '[*]' + Fore.RESET + ' Please select feed to update:'))
         feed_list = dir(FeedModules)
         newlist = []
         feedcount = 1
         for feed in feed_list:
             if "_update" in feed:
                 newlist.append(feed)
-                print str(feedcount)+'. '+feed
+                print(str(feedcount)+'. '+feed)
                 feedcount += 1
             else:
                 pass
 
-        print '\n'
-        choice = raw_input('Select feed by numerical ID (1-%d)\n> ' % (len(newlist)))
+        print('\n')
+        choice = input('Select feed by numerical ID (1-%d)\n> ' % (len(newlist)))
         if int(choice) in range(1, len(newlist) + 1):  # condition to check if proper feed was selected.
             mod = newlist[int(choice) - 1]   # Using choice number to locate item in the feed list
             methodToCall = getattr(feedmods, mod)  # saving the function with newlist argument as variable
             methodToCall()
         else:
-            print(Fore.RED + '[-]' + Fore.RESET + ' Invalid option. Exiting...')
+            print((Fore.RED + '[-]' + Fore.RESET + ' Invalid option. Exiting...'))
             exit(0)
 
     elif args.extract:
         os.chdir('../')
         filename = args.extract[0]
         base = os.path.basename(filename)
-        print(Fore.YELLOW + '[*]' + Fore.RESET + ' Extracting indicators from %s' % base)
+        print((Fore.YELLOW + '[*]' + Fore.RESET + ' Extracting indicators from %s' % base))
         extract(filename)
 
     elif args.cbgen:
@@ -131,19 +135,19 @@ def main():
             for i in ioc:
                 if '_ioc' in i:
                     raise StopIteration()
-            print(Fore.RED + '[-] No IOC files found.')
-            print (Fore.YELLOW + '\r\n[*] Please gather IOCs through --feeds update, or --extract for local files')
+            print((Fore.RED + '[-] ' + Fore.RESET + ' No IOC files found.'))
+            print((Fore.YELLOW + '\r\n[*] ' + Fore.RESET + ' Please gather IOCs through --feeds update, or --extract for local files'))
             exit(0)
         except StopIteration:
-            print(Fore.GREEN + '[+] IOCs found, continuing to feed generation\n')
+            print((Fore.GREEN + '[+] ' + Fore.RESET + 'IOCs found, continuing to feed generation\n'))
             pass
 
 
         os.chdir('../')
         if args.cbgen.lower() == 'all':
-            CB_gen('a')
+            cb_gen('a')
         elif args.cbgen.lower() == 'one':
-            CB_gen('i')
+            cb_gen('i')
 
         exit(0)
 

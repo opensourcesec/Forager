@@ -4,7 +4,7 @@ __author__ = 'byt3smith'
 #          all necessary intelligence feeds
 #
 
-from tools import *
+from .tools import *
 from re import search
 
 ip_addr = regex('ip')

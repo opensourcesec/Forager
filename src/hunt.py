@@ -4,7 +4,7 @@ __author__ = 'byt3smith'
 # indicator in provided CSV or New-line formatted file.
 #
 
-import tools
+from . import tools
 import sys
 import re
 import os
@@ -12,12 +12,13 @@ from time import sleep
 
 def search_file(ioc):
     os.chdir('../')
+    print("CUrrent Dir: {}".format(os.getcwd()))
     patt = tools.regex('ip')
 
     if ioc[-3:] == 'csv':
-        print '[*] Pulling indicators as CSV values'
+        print('[*] Pulling indicators as CSV values')
     else:
-        print '[*] Assuming new-line formatted file'
+        print('[*] Assuming new-line formatted file')
     try:
         f = open(ioc, 'r').readlines()
     except:
@@ -31,11 +32,12 @@ def search_file(ioc):
             ioc_list.append(match)
 
     sleep(2)
-    os.chdir('intel')
+    print("CUrrent Dir: {}".format(os.getcwd()))
+    os.chdir('data/intel/')
     dir = os.listdir('.')
 
     total = float(len(ioc_list))
-    print '[*] Found %d indicators in %s' % (total, ioc)
+    print('[*] Found %d indicators in %s' % (total, ioc))
     frac = 1.0/total
     prog = 0.0
 
@@ -57,20 +59,18 @@ def search_file(ioc):
         prog += frac
         tools.update_progress(prog)
 
-    print '[+] Search complete.'
-    print '%d matches found and stored in matches.txt' % matches
+    print('[+] Search complete.')
+    print('%d matches found and stored in matches.txt' % matches)
 
 
 def single_search(ioc):
-    os.chdir('../intel')
     dirs = os.listdir('.')
-
     if len(dirs) == 0:
         sys.stderr.write("[!] Cannot complete search, no files in intel directory. Exiting..\n")
         sys.exit(0)
 
     total = float(len(dirs))
-    print 'There are %d files in Intel dir' % total
+    print('There are %d intelligence files' % total)
 
     frac = 1.0/total
     prog = 0.0
@@ -93,7 +93,5 @@ def single_search(ioc):
         tools.update_progress(prog)
 
 
-    print '[+] Search complete.'
-    print '%d matches found and stored in matches.txt' % matches
-
-
+    print('[+] Search complete.')
+    print('\n[*] %d matches found and stored in matches.txt' % matches)

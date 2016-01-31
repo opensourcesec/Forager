@@ -4,9 +4,9 @@ import base64
 import re
 import time
 
-from __init__ import CbInvalidReport
-from __init__ import CbIconError
-from __init__ import CbInvalidFeed
+from .__init__ import CbInvalidReport
+from .__init__ import CbIconError
+from .__init__ import CbInvalidFeed
 
 class CbJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -79,7 +79,7 @@ class CbFeedInfo(object):
     def validate(self, pedantic=False):
         """ a set of checks to validate data before we export the feed"""
 
-        if not all([x in self.data.keys() for x in self.required]):
+        if not all([x in list(self.data.keys()) for x in self.required]):
             missing_fields = ", ".join(set(self.required).difference(set(self.data.keys())))
             raise CbInvalidFeed("FeedInfo missing required field(s): %s" % missing_fields)
 
@@ -96,13 +96,13 @@ class CbFeedInfo(object):
             icon_path = self.data.pop("icon")
             try:
                 self.data["icon"] = base64.b64encode(open(icon_path, "r").read())
-            except Exception, err:
+            except Exception as err:
                 raise CbIconError("Unknown error reading/encoding icon data: %s" % err)
         # otherwise, double-check it's valid base64
         elif "icon" in self.data: 
             try:
                 base64.b64decode(self.data["icon"])
-            except TypeError, err:
+            except TypeError as err:
                 raise CbIconError("Icon must either be path or base64 data.  \
                                     Path does not exist and base64 decode failed with: %s" % err)
 
@@ -139,12 +139,12 @@ class CbReport(object):
     def validate(self, pedantic=False):
 
         # validate we have all required keys
-        if not all([x in self.data.keys() for x in self.required]):
+        if not all([x in list(self.data.keys()) for x in self.required]):
             missing_fields = ", ".join(set(self.required).difference(set(self.data.keys())))
             raise CbInvalidReport("Report missing required field(s): %s" % missing_fields)
 
         # (pedantically) validate that no extra keys are present
-        if pedantic and len(self.data.keys()) > len(self.required):
+        if pedantic and len(list(self.data.keys())) > len(self.required):
             raise CbInvalidReport("Report contains extra keys: %s" % (set(self.data.keys()) - set(self.required)))
 
         # validate score is integer between -100 (if so specified) or 0 and 100
@@ -171,7 +171,7 @@ class CbReport(object):
         iocs = self.data['iocs']
 
         # validate that there are at least one type of ioc present
-        if len(iocs.keys()) == 0:
+        if len(list(iocs.keys())) == 0:
             raise CbInvalidReport("Report with no IOCs in report %s" % (self.data["id"])) 
 
         # (pedantically) validate that no extra keys are present

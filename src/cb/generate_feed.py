@@ -4,7 +4,7 @@ __author__ = 'CarbonBlack, byt3smith'
 import re
 import sys
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import json
 import optparse
 import socket
@@ -13,9 +13,9 @@ import hashlib
 
 # cb imports
 sys.path.insert(0, "../../")
-from cbfeeds.feed import CbReport
-from cbfeeds.feed import CbFeed
-from cbfeeds.feed import CbFeedInfo
+from .cbfeeds.feed import CbReport
+from .cbfeeds.feed import CbFeed
+from .cbfeeds.feed import CbFeedInfo
 
 #pypi
 from colorama import Fore, Back, Style, init
@@ -37,18 +37,18 @@ def gen_report_id(iocs):
     iocs.sort()
 
     for ioc in iocs:
-        md5.update(ioc.strip())
+        md5.update(ioc.strip().encode('utf-8'))
 
     return md5.hexdigest()
 
 def build_reports(options):
- 
+
     reports = []
 
     ips = []
     domains = []
     md5s = []
-  
+
     # read all of the lines (of text) from the provided
     # input file (of IOCs)
     #
@@ -56,8 +56,8 @@ def build_reports(options):
     try:
         raw_iocs = open(iocs).readlines()
     except:
-        print(Fore.RED + '\n[-]' + Fore.RESET),
-        print 'Could not open %s' % iocs
+        print((Fore.RED + '\n[-]' + Fore.RESET), end=' ')
+        print('Could not open %s' % iocs)
         exit(0)
 
     # iterate over each of the lines
@@ -65,23 +65,23 @@ def build_reports(options):
     # ipv4 address, dns name, or md5
     #
     for raw_ioc in raw_iocs:
-        
+
         # strip off any leading or trailing whitespace
         # skip any empty lines
-        # 
+        #
         raw_ioc = raw_ioc.strip()
         if len(raw_ioc) == 0:
             continue
-        
+
         try:
             # attempt to parse the line as an ipv4 address
-            # 
+            #
             socket.inet_aton(raw_ioc)
-            
+
             # parsed as an ipv4 address!
             #
             ips.append(raw_ioc)
-        except Exception, e:
+        except Exception as e:
 
             # attept to parse the line as a md5 and, if that fails,
             # as a domain.  use trivial parsing
@@ -90,7 +90,7 @@ def build_reports(options):
                re.findall(r"([a-fA-F\d]{32})", raw_ioc):
                 md5s.append(raw_ioc)
             elif -1 != raw_ioc.find("."):
-                domains.append(raw_ioc) 
+                domains.append(raw_ioc)
 
     fields = {'iocs': {
                       },
@@ -113,40 +113,40 @@ def build_reports(options):
 
 def create_feed(options):
     feed_meta = json.loads(options)
-   
+
     # generate the required feed information fields
     # based on command-line arguments
-    # 
+    #
     feedinfo = {'name': feed_meta['name'],
                 'display_name': feed_meta['display_name'],
                 'provider_url': feed_meta['provider_url'],
                 'summary': feed_meta['summary'],
                 'tech_data': feed_meta['tech_data']}
-   
+
     # if an icon was provided, encode as base64 and
     # include in the feed information
-    # 
+    #
     if feed_meta['icon']:
         try:
             bytes = base64.b64encode(open(feed_meta['icon']).read())
             feedinfo['icon'] = bytes
         except:
-            print(Fore.RED + '\n[-]' + Fore.RESET),
-            print 'Could not open %s. Make sure file still exists.\n' % feed_meta['icon']
+            print((Fore.RED + '\n[-]' + Fore.RESET), end=' ')
+            print('Could not open %s. Make sure file still exists.\n' % feed_meta['icon'])
 
     # build a CbFeedInfo instance
     # this does field validation
-    #    
+    #
     feedinfo = CbFeedInfo(**feedinfo)
-   
+
     # build a list of reports (always one report in this
-    # case).  the single report will include all the IOCs  
-    # 
+    # case).  the single report will include all the IOCs
+    #
     reports = build_reports(feed_meta)
-   
+
     # build a CbFeed instance
     # this does field validation (including on the report data)
-    # 
+    #
     feed = CbFeed(feedinfo, reports)
 
     return feed.dump()

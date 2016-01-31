@@ -2,10 +2,10 @@ import re
 import sys
 import time
 import json
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import socket
 import base64
-from feed import *
+from .feed import *
 import optparse
 
 def build_cli_parser():
@@ -50,9 +50,9 @@ def validate_feed(feed, pedantic=False):
      
     # verify that we have both of the required feedinfo and reports elements
     #
-    if not feed.has_key("feedinfo"):
+    if "feedinfo" not in feed:
         raise Exception("No 'feedinfo' element found!")
-    if not feed.has_key("reports"):
+    if "reports" not in feed:
         raise Exception("No 'reports' element found!")
 
     # set up the cbfeed object
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     options, args = parser.parse_args(sys.argv)
 
     if not options.feed_filename:
-        print "-> Must specify a feed filename to validate; use the -f switch or --help for usage"
+        print("-> Must specify a feed filename to validate; use the -f switch or --help for usage")
         sys.exit(0)
 
     # generate include and exclude (whitelist and blacklist) sets of indicators
@@ -108,41 +108,41 @@ if __name__ == "__main__":
 
     try:
         contents = validate_file(options.feed_filename)
-        print "-> Validated that file exists and is readable"
-    except Exception, e:
-        print "-> Unable to validate that file exists and is readable"
-        print "-> Details:"
-        print
-        print e
+        print("-> Validated that file exists and is readable")
+    except Exception as e:
+        print("-> Unable to validate that file exists and is readable")
+        print("-> Details:")
+        print()
+        print(e)
         sys.exit(0)
 
     try:
         feed = validate_json(contents)
-        print "-> Validated that feed file is valid JSON"
-    except Exception, e:
-        print "-> Unable to validate that file is valid JSON"
-        print "-> Details:"
-        print
-        print e
+        print("-> Validated that feed file is valid JSON")
+    except Exception as e:
+        print("-> Unable to validate that file is valid JSON")
+        print("-> Details:")
+        print()
+        print(e)
         sys.exit(0)
 
     try:
         feed = validate_feed(feed, pedantic=options.pedantic)
-        print "-> Validated that the feed file includes all necessary CB elements"
-        print "-> Validated that all element values are within CB feed requirements"
+        print("-> Validated that the feed file includes all necessary CB elements")
+        print("-> Validated that all element values are within CB feed requirements")
         if options.pedantic:
-            print "-> Validated that the feed includes no non-CB elements"
-    except Exception, e:
-        print "-> Unable to validate that the file is a valid CB feed"
-        print "-> Details:"
-        print
-        print e
+            print("-> Validated that the feed includes no non-CB elements")
+    except Exception as e:
+        print("-> Unable to validate that the file is a valid CB feed")
+        print("-> Details:")
+        print()
+        print(e)
         sys.exit(0)
 
     if len(exclude) > 0 or len(include) > 0:
         try:
             validate_against_include_exclude(feed, include, exclude)
-            print "-> Validated against include and exclude lists"
-        except Exception, e:
-            print "-> Unable to validate against the include and exclude lists"
-            print e 
+            print("-> Validated against include and exclude lists")
+        except Exception as e:
+            print("-> Unable to validate against the include and exclude lists")
+            print(e) 
