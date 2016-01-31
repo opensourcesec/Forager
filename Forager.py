@@ -18,10 +18,10 @@ from time import sleep
 #pypi
 from colorama import Fore, init
 #local
-from src.hunt import single_search, search_file
-from src.feeds import FeedModules
-from src.tools import extract, update_progress
-from src.cb_tools import cb_gen, run_feed_server
+from forager.hunt import single_search, search_file
+from forager.feeds import FeedModules
+from forager.tools import extract, update_progress
+from forager.cb_tools import cb_gen, run_feed_server
 
 
 def run_modules():
