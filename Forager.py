@@ -123,7 +123,7 @@ def main():
             exit(0)
 
     elif args.extract:
-        os.chdir('../')
+        os.chdir('../../')
         filename = args.extract[0]
         base = os.path.basename(filename)
         print((Fore.YELLOW + '[*]' + Fore.RESET + ' Extracting indicators from {}'.format(base)))
