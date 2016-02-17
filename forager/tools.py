@@ -112,7 +112,7 @@ def extract(filename):
             asciilist.append(ascii_val)
         f = ', '.join(asciilist)
     else:
-        f = open(filename, "r").read()
+        f = bytes(open(filename, "r").read(), 'utf-8')
 
     ### Setup patterns for extraction
     ip_patt = regex('ip')
@@ -134,7 +134,7 @@ def extract(filename):
     ipaddr = ip_patt.findall(f)
     for i in ipaddr:
         # Remove brackets if defanged
-        i = re.sub('\[\.\]', '.', i)
+        i = re.sub(b'\[\.\]', b'.', i)
 
         if i in ip_list:
             pass
@@ -144,7 +144,7 @@ def extract(filename):
     domains = host_patt.findall(f)
     for i in domains:
         # Remove brackets if defanged
-        i = re.sub('\[\.\]', '.', i)
+        i = re.sub(b'\[\.\]', b'.', i)
 
         if i in domain_list:
             pass
@@ -194,32 +194,32 @@ def extract(filename):
     ### Write IOCs to files
     with open(base_noext + '_ioc', 'w+') as f:
         for i in ip_list:
-            f.write(i + '\n')
+            f.write(i.decode("utf-8") + '\n')
         f.write("\n")
         print('IPv4 Addresses [' + (Fore.GREEN + '%d' % (len(ip_list)) + Fore.RESET if len(ip_list) > 0 else Fore.RED + '%d' % (len(ip_list)) + Fore.RESET) + ']')
 
         for d in domain_list:
-            f.write(d + '\n')
+            f.write(d.decode("utf-8") + '\n')
         f.write("\n")
         print('Domain Names [' + (Fore.GREEN + '%d' % (len(domain_list)) + Fore.RESET if len(domain_list) > 0 else Fore.RED + '%d' % (len(domain_list)) + Fore.RESET) + ']')
 
         for m in md5_list:
-            f.write(m + '\n')
+            f.write(m.decode("utf-8") + '\n')
         f.write("\n")
         print('MD5 Hashes [' + (Fore.GREEN + '%d' % (len(md5_list)) + Fore.RESET if len(md5_list) > 0 else Fore.RED + '%d' % (len(md5_list)) + Fore.RESET) + ']')
 
         for y in yara_list:
-            f.write(y + '\n')
+            f.write(y.decode("utf-8") + '\n')
         f.write("\n")
         print('YARA Rules [' + (Fore.GREEN + '%d' % (len(yara_list)) + Fore.RESET if len(yara_list) > 0 else Fore.RED + '%d' % (len(yara_list)) + Fore.RESET) + ']')
 
         for s1 in sha1_list:
-            f.write(s1 + '\n')
+            f.write(s1.decode("utf-8") + '\n')
         f.write("\n")
         print('SHA1 Hashes [' + (Fore.GREEN + '%d' % (len(sha1_list)) + Fore.RESET if len(sha1_list) > 0 else Fore.RED + '%d' % (len(sha1_list)) + Fore.RESET) + ']')
 
         for s2 in sha256_list:
-            f.write(s2 + '\n')
+            f.write(s2.decode("utf-8") + '\n')
         f.write("\n")
         print('SHA256 Hashes [' + (Fore.GREEN + '%d' % (len(sha256_list)) + Fore.RESET if len(sha256_list) > 0 else Fore.RED + '%d' % (len(sha256_list)) + Fore.RESET) + ']')
 
