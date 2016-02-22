@@ -10,6 +10,7 @@ from pdfminer.layout import LAParams, LTTextBox, LTTextLine
 
 def convert_pdf_to_txt(path):
     fp = open(path, 'rb')
+    txt = ''
     parser = PDFParser(fp)
     doc = PDFDocument()
     parser.set_document(doc)
@@ -25,4 +26,5 @@ def convert_pdf_to_txt(path):
         layout = device.get_result()
         for lt_obj in layout:
             if isinstance(lt_obj, LTTextBox) or isinstance(lt_obj, LTTextLine):
-                return(lt_obj.get_text())
+                txt += lt_obj.get_text()
+    return(txt)

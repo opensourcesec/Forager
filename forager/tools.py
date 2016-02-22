@@ -20,7 +20,6 @@ def connect(url):
         f = urllib.request.urlopen(url).readlines()
         return f
     except:
-        #sys.stdout.write('[!] Could not connect to: %s\n' % url)
         sys.exit(0)
 
 
@@ -49,7 +48,6 @@ def gather(url, rex):
     ioc_list = []
     count = 0
     f = connect(url)
-    #source = '/'.join(regex('domain').findall(url))
     sleep(2)
     for line in f:
         if line.startswith(b"/") or line.startswith(b"#") or line.startswith(b"\n"):
@@ -63,7 +61,6 @@ def gather(url, rex):
                     ioc_list.append(i)
                     count += 1
 
-    #print 'Gathered %d items from %s' % (count, source)
     return ioc_list
 
 
@@ -84,10 +81,9 @@ def add2file(filename, ioc_list):
 
 
 def extract(filename):
-
     ### Determine filetype to define how IOCs are processed
     if filename[-3:] == 'pdf':
-        f = pdfConverter.convert_pdf_to_txt(filename)
+        f = bytes(pdfConverter.convert_pdf_to_txt(filename), 'utf-8')
     elif filename[-3:] == 'xls' or filename[-4:] == 'xlsx':
         f = open_workbook(filename)
 
@@ -110,7 +106,7 @@ def extract(filename):
         for item in vallist:
             ascii_val = unicodedata.normalize('NFKD', item).encode('ascii', 'ignore')
             asciilist.append(ascii_val)
-        f = ', '.join(asciilist)
+        f = bytes(', '.join(asciilist))
     else:
         f = bytes(open(filename, "r").read(), 'utf-8')
 
