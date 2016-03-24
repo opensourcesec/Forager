@@ -43,6 +43,13 @@ class FeedModules():
         add2file('MDL_ioc', ioc_list)
 
 
+    ## Ransomware Tracker
+    def ransomware_update(self):
+        host_ioc = gather('https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt', hostname)
+
+        add2file('ransomware_ioc', host_ioc)
+
+
     ## Feodo Tracker
     def feodo_update(self):
         iocs = gather('https://feodotracker.abuse.ch/blocklist/?download=ipblocklist', ip_addr)
