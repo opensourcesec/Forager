@@ -51,9 +51,9 @@ def run_feed_server():
 
 def cb_gen(run_mode):
     #cbfeed generator
-    #
+
     feed_list = gen_feed_list()
-    print(getcwd())
+
     # Check for data/cb/ dir
     if path.isdir("cb/"):
         pass
@@ -170,7 +170,7 @@ def get_feed_info(f):
 
     # Find URL in feeds.py
     try:
-        feedfile = open('../src/feeds.py', 'r').readlines()
+        feedfile = open('../forager/feeds.py', 'r').readlines()
     except:
         print((Fore.RED + '\n[-]' + Fore.RESET), end=' ')
         print('Could not open file')
@@ -194,7 +194,7 @@ def get_feed_info(f):
 
     if stat == 0:
         print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
-        print('Could not locate provider URL in feed module.. please provide it below:')
+        print('Provider URL for {}:'.format(f))
         provider_url = input('> ')
     else:
         provider_url = result
