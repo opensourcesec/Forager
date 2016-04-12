@@ -51,7 +51,7 @@ def run_feed_server():
 
 def cb_gen(run_mode):
     #cbfeed generator
-    
+
     feed_list = gen_feed_list()
 
     # Check for data/cb/ dir
@@ -170,7 +170,6 @@ def get_feed_info(f):
 
     # Find URL in feeds.py
     try:
-        print(getcwd())
         feedfile = open('../forager/feeds.py', 'r').readlines()
     except:
         print((Fore.RED + '\n[-]' + Fore.RESET), end=' ')
