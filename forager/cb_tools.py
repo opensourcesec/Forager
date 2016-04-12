@@ -51,9 +51,9 @@ def run_feed_server():
 
 def cb_gen(run_mode):
     #cbfeed generator
-    #
+    
     feed_list = gen_feed_list()
-    print(getcwd())
+
     # Check for data/cb/ dir
     if path.isdir("cb/"):
         pass
