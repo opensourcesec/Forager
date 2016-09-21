@@ -10,6 +10,32 @@ from re import search
 ip_addr = regex('ip')
 hostname = regex('domain')
 
+# Feed Modules Refactor
+#######################
+'''
+class FeedModulesDeux():
+    def __init__(self, url, name, expattern=None):
+        self.url = url
+        self.fn = fn
+        self.name = name
+        self.expattern = expattern
+
+    def run(self):
+        if self.expattern is not None:
+            # load external pattern matcher
+        else:
+            ip_iocs = gather(self.url, ip_addr)
+            host_iocs = gather(self.url, hostname)
+
+        add2file(name + '_ioc', ip_iocs)
+        add2file(name + '_ioc', hostname)
+
+
+malc0de_ip = FeedModule('http://malc0de.com/bl/IP_Blacklist.txt', 'malc0de')
+malc0de_domains = FeedModule('http://malc0de.com/bl/BOOT', 'malc0de')
+'''
+######################
+
 class FeedModules():
     ## Malc0de
     def malc0de_update(self):
@@ -132,7 +158,7 @@ class FeedModules():
     def nothinkIrc_update(self):
         iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_irc.txt', ip_addr)
         add2file('nothinkIRC_ioc', iocs)
-    
+
 
     ## MalwaredRU Tracker
     def MalwaredRU_update(self):
