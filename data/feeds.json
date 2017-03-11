@@ -1,0 +1,10 @@
+{
+  "malc0de": {
+    "ip": {
+      "url": "http://malc0de.com/bl/IP_Blacklist.txt"
+    },
+    "domains": {
+      "url": "http://malc0de.com/bl/BOOT"
+    }
+  }
+}

@@ -7,41 +7,40 @@ __author__ = 'byt3smith'
 from .tools import *
 from re import search
 
-ip_addr = regex('ip')
-hostname = regex('domain')
+ip_rex = regex('ip')
+domain_rex = regex('domain')
 
-# Feed Modules Refactor
+# Feed Module
 #######################
-'''
-class FeedModulesDeux():
-    def __init__(self, url, name, expattern=None):
+class Feed():
+    def __init__(self, url, name, altpattern=None):
         self.url = url
-        self.fn = fn
         self.name = name
-        self.expattern = expattern
+        self.expattern = altpattern
 
     def run(self):
-        if self.expattern is not None:
-            # load external pattern matcher
+        if self.altpattern is not None:
+            # use alternate
+            pass
         else:
-            ip_iocs = gather(self.url, ip_addr)
-            host_iocs = gather(self.url, hostname)
+            ip_iocs = gather(self.url, ip_rex)
+            host_iocs = gather(self.url, domain_rex)
 
         add2file(name + '_ioc', ip_iocs)
-        add2file(name + '_ioc', hostname)
+        add2file(name + '_ioc', domain_rex)
 
 
-malc0de_ip = FeedModule('http://malc0de.com/bl/IP_Blacklist.txt', 'malc0de')
-malc0de_domains = FeedModule('http://malc0de.com/bl/BOOT', 'malc0de')
+'''
+malc0de_ip = Feed('http://malc0de.com/bl/IP_Blacklist.txt', 'malc0de')
+malc0de_domains = Feed('http://malc0de.com/bl/BOOT', 'malc0de')
 '''
 ######################
-
 class FeedModules():
     ## Malc0de
     def malc0de_update(self):
-        iocs = gather('http://malc0de.com/bl/IP_Blacklist.txt', ip_addr)
+        iocs = gather('http://malc0de.com/bl/IP_Blacklist.txt', ip_rex)
     ## Malc0de Domain
-        host_ioc = gather('http://malc0de.com/bl/BOOT', hostname)
+        host_ioc = gather('http://malc0de.com/bl/BOOT', domain_rex)
 
         add2file('malc0de_ioc', iocs)
         add2file('malc0de_ioc', host_ioc)
@@ -49,7 +48,7 @@ class FeedModules():
     ## Malware Domain List
     def MDL_update(self):
         url = 'http://mirror1.malwaredomains.com/files/domains.txt'
-        r = hostname
+        r = domain_rex
         ioc_list = []
         count = 0
         f = connect(url)
@@ -71,15 +70,15 @@ class FeedModules():
 
     ## Ransomware Tracker
     def ransomware_update(self):
-        host_ioc = gather('https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt', hostname)
+        host_ioc = gather('https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt', domain_rex)
 
         add2file('ransomware_ioc', host_ioc)
 
 
     ## Feodo Tracker
     def feodo_update(self):
-        iocs = gather('https://feodotracker.abuse.ch/blocklist/?download=ipblocklist', ip_addr)
-        host_ioc = gather('https://feodotracker.abuse.ch/blocklist/?download=domainblocklist', hostname)
+        iocs = gather('https://feodotracker.abuse.ch/blocklist/?download=ipblocklist', ip_rex)
+        host_ioc = gather('https://feodotracker.abuse.ch/blocklist/?download=domainblocklist', domain_rex)
 
         add2file('feodo_ioc', iocs)
         add2file('feodo_ioc', host_ioc)
@@ -87,20 +86,20 @@ class FeedModules():
 
     ## reputation.alienvault.com
     def alienvault_update(self):
-        iocs = gather('https://reputation.alienvault.com/reputation.generic', ip_addr)
+        iocs = gather('https://reputation.alienvault.com/reputation.generic', ip_rex)
         add2file('alienvault_ioc', iocs)
 
 
     ## DShield High Pri suspicious domain list
     def dshieldHigh_update(self):
-        host_iocs = gather('http://www.dshield.org/feeds/suspiciousdomains_High.txt', hostname)
+        host_iocs = gather('http://www.dshield.org/feeds/suspiciousdomains_High.txt', domain_rex)
         add2file('dShieldHigh_ioc', host_iocs)
 
 
     ## Spyeye Tracker
     def spyeye_update(self):
-        iocs = gather('https://spyeyetracker.abuse.ch/blocklist.php?download=hostsdeny', ip_addr)
-        host_ioc = gather('https://spyeyetracker.abuse.ch/blocklist.php?download=hostsdeny', hostname)
+        iocs = gather('https://spyeyetracker.abuse.ch/blocklist.php?download=hostsdeny', ip_rex)
+        host_ioc = gather('https://spyeyetracker.abuse.ch/blocklist.php?download=hostsdeny', domain_rex)
 
         add2file('spyeye_ioc', iocs)
         add2file('spyeye_ioc', host_ioc)
@@ -108,8 +107,8 @@ class FeedModules():
 
     ## Zeus Tracker
     def zeus_update(self):
-        iocs = gather('https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist', ip_addr)
-        host_ioc = gather('https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist', hostname)
+        iocs = gather('https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist', ip_rex)
+        host_ioc = gather('https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist', domain_rex)
 
         add2file('zeus_ioc', iocs)
         add2file('zeus_ioc', host_ioc)
@@ -117,8 +116,8 @@ class FeedModules():
 
     ## Palevo Tracker
     def palevo_tracker_update(self):
-        iocs = gather('https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist', ip_addr)
-        host_ioc = gather('https://palevotracker.abuse.ch/blocklists.php?download=domainblocklist', hostname)
+        iocs = gather('https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist', ip_rex)
+        host_ioc = gather('https://palevotracker.abuse.ch/blocklists.php?download=domainblocklist', domain_rex)
 
         add2file('palevo_ioc', iocs)
         add2file('palevo_ioc', host_ioc)
@@ -126,20 +125,20 @@ class FeedModules():
 
     ## OpenBL
     def openbl_update(self):
-        iocs = gather('http://www.openbl.org/lists/base.txt', ip_addr)
+        iocs = gather('http://www.openbl.org/lists/base.txt', ip_rex)
         add2file('openbl_ioc', iocs)
 
 
     ## MalwareDomains
     def malwaredomains_update(self):
-        iocs = gather('http://mirror1.malwaredomains.com/files/domains.txt', hostname)
+        iocs = gather('http://mirror1.malwaredomains.com/files/domains.txt', domain_rex)
         add2file('malwaredomains_ioc', iocs)
 
 
     ## NoThink Honeypots -- DNS Traffic
     def nothinkDns_update(self):
-        iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', ip_addr)
-        host_ioc = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', hostname)
+        iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', ip_rex)
+        host_ioc = gather('http://www.nothink.org/blacklist/blacklist_malware_dns.txt', domain_rex)
 
         add2file('nothinkDNS_ioc', iocs)
         add2file('noThinkDNS_ioc', host_ioc)
@@ -147,8 +146,8 @@ class FeedModules():
 
     ## NoThink Honeypots -- HTTP Traffic
     def nothinkHttp_update(self):
-        iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', ip_addr)
-        host_iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', hostname)
+        iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', ip_rex)
+        host_iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_http.txt', domain_rex)
 
         add2file('nothinkHTTP_ioc', iocs)
         add2file('nothinkHTTP_ioc', host_iocs)
@@ -156,14 +155,14 @@ class FeedModules():
 
     ## NoThink Honeypots -- IRC Traffic
     def nothinkIrc_update(self):
-        iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_irc.txt', ip_addr)
+        iocs = gather('http://www.nothink.org/blacklist/blacklist_malware_irc.txt', ip_rex)
         add2file('nothinkIRC_ioc', iocs)
 
 
     ## MalwaredRU Tracker
     def MalwaredRU_update(self):
-        iocs = gather('http://malwared.ru/db/fulllist.php', ip_addr)
-        host_iocs = gather('http://malwared.ru/db/fulllist.php', hostname)
+        iocs = gather('http://malwared.ru/db/fulllist.php', ip_rex)
+        host_iocs = gather('http://malwared.ru/db/fulllist.php', domain_rex)
 
         add2file('MalwaredRU_ioc', iocs)
         add2file('MalwaredRU_ioc', host_iocs)
@@ -171,18 +170,18 @@ class FeedModules():
 
     ## ET-Open BOTCC
     def ETOpenBotCC_update(self):
-        iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-botcc.rules', ip_addr)
+        iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-botcc.rules', ip_rex)
 
         add2file('ETOpenBotCC_ioc', iocs)
 
     ## ET-Open Emerging CIarmy
     def ETOpenCIArmy_update(self):
-        iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-ciarmy.rules', ip_addr)
+        iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-ciarmy.rules', ip_rex)
 
         add2file('ETOpenCIArmy_ioc', iocs)
 
     ## ET-Open Compromised
     def ETOpenCompd_update(self):
-        iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-compromised-BLOCK.rules', ip_addr)
+        iocs = gather('http://rules.emergingthreats.net/blockrules/emerging-compromised-BLOCK.rules', ip_rex)
 
         add2file('ETOpenCompd_ioc', iocs)

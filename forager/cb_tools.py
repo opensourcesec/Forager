@@ -5,7 +5,7 @@ __author__ = 'byt3smith'
 # Can also stand up a SimpleHTTPServer to host the feeds
 #
 #stdlib
-from os import chdir, listdir, mkdir, getcwd, path
+from os import chdir, listdir, mkdir, getcwd, path, environ
 import http.server
 import socketserver
 from re import sub, search
@@ -34,14 +34,18 @@ def gen_feed_list():
 
 def run_feed_server():
     #stands up the feed server, points to the CB/json_feeds dir
-    chdir('data/json_feeds/')
-    port = 8000
+    chdir('../cb/json_feeds/')
+    try:
+        port = int(environ['PORT'])
+    except KeyError:
+        print("[-] PORT environment variable not set.")
+        exit(1)
     handler = http.server.SimpleHTTPRequestHandler
     httpd = socketserver.TCPServer(("", port), handler)
 
     try:
-        print((Fore.GREEN + '\n[+]' + Fore.RESET), end=' ')
-        print(('Feed Server listening at http://%s:8000' % gethostname()))
+        print((Fore.YELLOW + '\n[*]' + Fore.RESET), end=' ')
+        print((' Feed server listening at http://%s:%d' % (gethostname(), port)))
         httpd.serve_forever()
     except:
         print((Fore.RED + '\n[-]' + Fore.RESET), end=' ')
@@ -49,7 +53,7 @@ def run_feed_server():
 
     return
 
-def cb_gen(run_mode):
+def cb_feed_gen(run_mode):
     #cbfeed generator
 
     feed_list = gen_feed_list()

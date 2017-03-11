@@ -21,7 +21,7 @@ from colorama import Fore, init
 from forager.hunt import single_search, search_file
 from forager.feeds import FeedModules
 from forager.tools import extract, update_progress
-from forager.cb_tools import cb_gen, run_feed_server
+from forager.cb_tools import cb_feed_gen, run_feed_server
 
 
 def run_modules():
@@ -52,12 +52,12 @@ def run_modules():
     print((Fore.GREEN + '\n[+]' + Fore.RESET + ' Feed collection finished!'))
 
 
-def ensure_dir():
+def verify_directory_exists():
     folder = 'data/intel'
     if not os.path.exists(folder):
         os.makedirs(folder)
-        print((Fore.YELLOW + '\n[*]' + Fore.RESET))
-        print('Created new directory: intel')
+        sys.stdout.write((Fore.YELLOW + '\n[*] ' + Fore.RESET))
+        print("Created new directory: data/intel\n")
 
 
 def main():
@@ -72,8 +72,9 @@ def main():
     print((Fore.CYAN + banner))
 
     feedmods = FeedModules()
-    ensure_dir()
+    verify_directory_exists()
     os.chdir('data/intel/')
+
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("--feeds", type=str, choices=['list', 'update'], help="Manipulates intelligence feeds\n\
     List - Show list of current feeds to update individually\n\
@@ -85,20 +86,19 @@ def main():
     parser.add_argument("--extract", type=str, nargs=1, help="Extracts indicators from a given file")
     parser.add_argument("--cbgen", type=str, choices=['all', 'one'], help="Generates alliance feeds for CarbonBlack. (Requires cbfeeds be present in bin dir)")
     parser.add_argument('--srv', action="store_true", help="Runs feed server")
-
-
     args = parser.parse_args()
 
+    # Hunt option
     if args.hunt:
         if args.s:
             single_search(args.s)
         elif args.f:
             search_file(args.f)
-
+    # Feed Updates
     elif args.feeds == 'update':
         print((Fore.YELLOW + '\n[*]' + Fore.RESET + ' Updating all feeds'))
         run_modules()
-
+    # Feed Listing
     elif args.feeds == 'list':
         print((Fore.YELLOW + '[*]' + Fore.RESET + ' Please select feed to update:'))
         feed_list = dir(FeedModules)
@@ -121,14 +121,14 @@ def main():
         else:
             print((Fore.RED + '[-]' + Fore.RESET + ' Invalid option. Exiting...'))
             exit(0)
-
+    # IOC Extraction
     elif args.extract:
         os.chdir('../../')
         filename = args.extract[0]
         base = os.path.basename(filename)
         print((Fore.YELLOW + '[*]' + Fore.RESET + ' Extracting indicators from {}'.format(base)))
         extract(filename)
-
+    # Carbonblack Feed Generation
     elif args.cbgen:
         try:
             ioc = os.listdir('.')
@@ -145,17 +145,21 @@ def main():
 
         os.chdir('../')
         if args.cbgen.lower() == 'all':
-            cb_gen('a')
+            cb_feed_gen('a')
         elif args.cbgen.lower() == 'one':
-            cb_gen('i')
+            cb_feed_gen('i')
 
         exit(0)
-
+    # Start the feed server
     elif args.srv:
-        thr = Thread(target=run_feed_server(), name='Feed_server')
-        thr.start()
-        thr.join()
-
+        try:
+            thr = Thread(target=run_feed_server(), name='Feed_server')
+            thr.start()
+            thr.join()
+        except FileNotFoundError:
+            print("[-] You need to generate the JSON feeds before you can run the server.")
+            print("Try: Forager.py --feeds update")
+            print("Then: Forager.py --cbgen all")
     else:
         parser.print_help()
 

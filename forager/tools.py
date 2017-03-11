@@ -9,7 +9,7 @@ from xlrd import open_workbook, sheet
 import re
 import sys
 import urllib.request, urllib.error, urllib.parse
-from . import pdfConverter
+from . import pdf_converter
 import unicodedata
 from colorama import Fore, Back, Style, init
 
@@ -83,7 +83,7 @@ def add2file(filename, ioc_list):
 def extract(filename):
     ### Determine filetype to define how IOCs are processed
     if filename[-3:] == 'pdf':
-        f = bytes(pdfConverter.convert_pdf_to_txt(filename), 'utf-8')
+        f = bytes(pdf_converter.convert_pdf_to_txt(filename), 'utf-8')
     elif filename[-3:] == 'xls' or filename[-4:] == 'xlsx':
         f = open_workbook(filename)
 
