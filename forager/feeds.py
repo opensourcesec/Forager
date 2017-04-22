@@ -34,6 +34,7 @@ class Feed():
 malc0de_ip = Feed('http://malc0de.com/bl/IP_Blacklist.txt', 'malc0de')
 malc0de_domains = Feed('http://malc0de.com/bl/BOOT', 'malc0de')
 '''
+
 ######################
 class FeedModules():
     ## Malc0de

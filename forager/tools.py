@@ -118,7 +118,7 @@ def extract(filename):
     sha256_patt = regex('sha256')
     yara_patt = regex('yara')
 
-    ### Declare temp list vars to store IOCs
+    ### Declare temp lists to store IOCs
     ip_list = []
     domain_list = []
     md5_list = []
