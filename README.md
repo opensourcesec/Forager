@@ -1,7 +1,7 @@
 Forager  ![alt tag](img/Forager.png)
 =======
 
-[![Build Status](https://travis-ci.org/byt3smith/Forager.svg?branch=master)](https://travis-ci.org/byt3smith/Forager)
+[![Build Status](https://travis-ci.org/opensourcesec/Forager.svg?branch=master)](https://travis-ci.org/opensourcesec/Forager)
 
 ##### Summary
 
